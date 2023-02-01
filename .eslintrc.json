@@ -9,6 +9,9 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react"],
-  "rules": {}
+  "plugins": ["react", "@emotion"],
+  "rules": {
+    "@emotion/pkg-renaming": "error",
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }]
+  }
 }
