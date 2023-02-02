@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>することリスト</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="src/reset.css" />
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+
+  <body>
+    <header class="l-header">
+      <div class="c-container">
+        <div class="c-header__flex">
+          <h1 class="p-headerTtl">すること<br />リスト</h1>
+          <nav>
+            <ul class="c-nav__ul">
+              <li class="p-nav__list"><a href="#l-new">作成</a></li>
+              <li class="c-varColor--yellow p-nav__list">
+                <a href="#a-active">進行中</a>
+              </li>
+              <li class="c-varColor--pink p-nav__list">
+                <a href="#a-completed">完了済</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section id="l-new">
+        <div class="c-container">
+          <h2 class="p-newTask">作成</h2>
+          <p>することの入力欄の1番上は必ず入力してください</p>
+          <div class="c-board p-board__new">
+            <form action="" method="GET" name="new" class="p-form">
+              <div>
+                <label for="title">タイトル</label><br />
+                <input type="text" id="newTitle" /><br />
+                <label for="task">すること</label><br />
+                <div id="taskInputs">
+                  <input type="text" name="task" id="taskInput0" required /><br />
+                </div>
+                <input
+                  type="button"
+                  id="js-addTask"
+                  class="c-btn__board c-varColor--pink"
+                  value="追加する"
+                />
+                <input
+                  type="button"
+                  id="js-delTask"
+                  class="c-btn__board p-btn__board--reduce"
+                  value="枠を減らす"
+                />
+              </div>
+              <input
+                type="submit"
+                id="js-submit__new"
+                class="c-btn__board c-varColor--yellow p-btn__board--submit"
+                value="作成"
+              />
+            </form>
+          </div>
+        </div>
+      </section>
+      <section id="l-active" class="p-section">
+        <div id="a-active"></a>
+        <div class="c-container">
+          <h2 class="p-heading">進行中</h2>
+          <div id="js-actives" class="c-wrapper__boards"></div>
+        </div>
+      </section>
+      <section id="l-completed" class="p-section">
+        <div id="a-completed"></div>
+        <div class="c-container">
+          <h2 class="p-heading">完了済</h2>
+          <div id="js-completed" class="c-wrapper__boards"></div>
+          <p>
+            まとめて削除したい完了済黒板の<br />
+            左上のチェックボックスを押してから<br />
+            ↓下の<strong class="c-color--blue">まとめて削除ボタン</strong
+            >を押してください
+          </p>
+          <button
+            id="js-delComps"
+            class="c-btn__board c-varColor--deepblue p-btn__board--submit"
+          >
+            まとめて削除
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script src="src/index.js"></script>
+  </body>
+</html>

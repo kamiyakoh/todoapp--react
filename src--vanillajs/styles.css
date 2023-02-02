@@ -1,0 +1,286 @@
+body {
+  font-family: sans-serif;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+input[type="checkbox"] {
+  margin: 8px 0;
+}
+
+@media (width < 960px) {
+  input[type="checkbox"] {
+    margin: 12px 0;
+  }
+}
+
+input[type="text"] {
+  width: 100%;
+}
+
+#a-active {
+  padding-top: 96px;
+  margin-top: -96px;
+}
+
+#a-completed {
+  padding-top: 96px;
+  margin-top: -96px;
+}
+
+#l-active {
+  background: #fbfbab;
+}
+
+#l-completed {
+  background: #ffd9ec;
+}
+
+.l-header {
+  position: fixed;
+  background: #1fb068;
+  color: #fff;
+  width: 100%;
+  height: 80px;
+  padding: 16px 0;
+  z-index: 10;
+}
+
+#l-new {
+  padding: 112px 0 32px;
+}
+
+.c-board {
+  position: relative;
+  padding: 1em;
+  width: calc(50% - 1em); /* ボックス幅 */
+  background: #006633; /* ボックス背景色 */
+  color: #fff; /* 文章色 */
+  border: 8px solid #b2771f; /* 枠線 */
+  border-radius: 3px; /* 角の丸み */
+  box-shadow: 0 0 5px #333, 0 0 5px #555 inset;
+}
+
+@media (width < 960px) {
+  .c-board {
+    width: 100%;
+  }
+}
+
+.c-board::before,
+.c-board::after {
+  position: absolute;
+  content: "";
+  bottom: 0;
+}
+
+.c-board::before {
+  width: 20px;
+  right: 10px;
+  border: solid 3px var(--color, #6fd1ff); /*チョーク（黄色）*/
+  border-radius: 3px 2px 0 2px;
+}
+
+.c-board::after {
+  width: 15px;
+  right: 45px;
+  border: solid 3px #fff; /*チョーク（白） */
+  border-radius: 8px 5px 2px 5px;
+}
+
+.c-btnArea__right {
+  display: flex;
+  align-self: flex-end;
+  gap: 16px;
+}
+
+@media (width < 600px) {
+  .c-btnArea__right {
+    justify-content: flex-end;
+  }
+}
+
+.c-btn__board {
+  cursor: pointer;
+  color: var(--color, #fff);
+  background-color: transparent;
+  border-radius: 4px;
+  border: solid 2px var(--color, #fff);
+}
+
+.c-checkList {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  height: 100%;
+}
+
+@media (width < 600px) {
+  .c-checkList {
+    justify-content: initial;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto;
+    gap: 24px;
+  }
+}
+
+.c-checkList div {
+  min-width: 0;
+}
+
+.c-container {
+  max-width: 1280px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.c-color--blue {
+  color: #6fd1ff;
+}
+
+.c-color--red {
+  color: #ff7fbf;
+}
+
+.c-color--yellow {
+  color: #ffff6b;
+}
+
+.c-header__flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.c-nav__ul {
+  display: flex;
+}
+
+.c-varColor--deepblue {
+  --color: #01abfb;
+}
+
+.c-varColor--green {
+  --color: #006633;
+}
+
+.c-varColor--pink {
+  --color: #ff7fbf;
+}
+
+.c-varColor--yellow {
+  --color: #ffff6b;
+}
+
+.c-wrapper__boards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2em 2em;
+  padding: 2em 0;
+}
+
+.p-board__new {
+  max-width: 640px;
+  width: 100%;
+  margin: 2em auto;
+}
+
+.p-btn__board--reduce {
+  --color: #6fd1ff;
+  margin-left: 24px;
+}
+
+.p-btn__board--submit {
+  align-self: flex-end;
+  font-size: 3em;
+  line-height: 1;
+  padding: 8px;
+  border-width: 6px;
+}
+
+.p-btn__board--comp {
+  --color: #ff7fbf;
+  display: none;
+}
+
+.p-btn__board--del {
+  --color: #6fd1ff;
+}
+
+.p-btn__btnArea {
+  font-size: 2em;
+  line-height: 1;
+  padding: 6px;
+  border-width: 4px;
+}
+
+.p-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+@media (width < 600px) {
+  .p-form {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 24px;
+  }
+}
+
+.p-form div * + * {
+  margin-top: 8px;
+}
+
+.p-form div .p-btn__board--reduce {
+  margin-top: 24px;
+}
+
+.p-form label {
+  font-weight: bold;
+}
+
+.p-headerTtl br {
+  display: none;
+}
+
+@media (width < 600px) {
+  .p-headerTtl {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .p-headerTtl br {
+    display: block;
+  }
+}
+
+.p-nav__list {
+  color: var(--color, #fff);
+  font-weight: bold;
+  padding: 4px;
+  border-radius: 4px;
+  border: solid 2px var(--color, #fff);
+  margin-left: 8px;
+}
+
+.p-section {
+  padding: 32px 0;
+}
+
+.is-checked {
+  color: #ff7fbf;
+  text-decoration: line-through;
+}
+
+.is-comped {
+  display: block;
+}
