@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# todoapp--react
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**"todoapp--react"** は create-react-app で作成しました  
+まだ制作途中です
 
-## Available Scripts
+## 作成環境
 
-In the project directory, you can run:
+- yarn 1.22.5
+- prettier 2.8.3
+- eslint 8.33.0
 
-### `yarn start`
+## 使い方
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. `$ npm start` とターミナルにて入力で起動します
+2. ブラウザにて "http://localhost:3000/" を開くと表示されます
+3. ターミナルにて **"Crtl + c"** または **"cmd + c"** で停止します
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## eslint
 
-### `yarn test`
+`$ npm init @eslint/config` を用いて以下の設定内容で設定しました
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+> How would you like to use ESLint? · style  
+> What type of modules does your project use? · esm  
+> Which framework does your project use? · react  
+> Does your project use TypeScript? · No  
+> Where does your code run? · browser  
+> How would you like to define a style for your project? · guide  
+> Which style guide do you want to follow? · airbnb  
+> What format do you want your config file to be in? · JSON
+>
+> Would you like to install them now? · Yes  
+> Which package manager do you want to use? · yarn
 
-### `yarn build`
+### extends
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- "prettier" を追加し prettier との競合を抑制しました
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### plugins
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- "@emotion" を追加し CSS in JS の emotion を導入に対応しました
 
-### `yarn eject`
+### rules
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- "@emotion/pkg-renaming": "error" を追加し emotion 11 codemods に対応しました
+- "react/no-unknown-property": ["error", { "ignore": ["css"] }] を追加し emotion 特有の css という prop に対して no-unknown-property ルールがより厳密すぎる判定され eslint がエラーを出す問題に対応しました
+- "react/prop-types": "off" を追加し過剰な prop に対するエラーに対応しました
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## prettier
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+エディタが VSCode の場合、拡張機能に **_"Prettier - Code formatter"_** をインストールし有効化すると保存時に自動整形を行います  
+prettier の設定は以下の設定です
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- "tabWidth": 2, //インデントのスペースの数 2
+- "singleQuote": true, //ダブルクォートの代わりにシングルクォートを使用するを有効に
+- "semi": true //文末にセミコロンを追加する

@@ -12,6 +12,7 @@
   "plugins": ["react", "@emotion"],
   "rules": {
     "@emotion/pkg-renaming": "error",
-    "react/no-unknown-property": ["error", { "ignore": ["css"] }]
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }],
+    "react/prop-types": "off"
   }
 }
