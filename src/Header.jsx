@@ -1,6 +1,7 @@
 import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import Container from './Container';
 
 const breakpoints = [600, 960];
 const mq = breakpoints.map((bp) => `@media (width < ${bp}px)`);
@@ -13,12 +14,6 @@ const header = css`
   height: 80px;
   padding: 16px 0;
   z-index: 10;
-`;
-
-const container = css`
-  max-width: 1280px;
-  width: 90%;
-  margin: 0 auto;
 `;
 
 const headerFlex = css`
@@ -57,7 +52,7 @@ const navLi = css`
 function Header() {
   return (
     <header css={header}>
-      <div css={container}>
+      <Container>
         <div css={headerFlex}>
           <h1 css={headerTtl}>
             すること
@@ -67,18 +62,18 @@ function Header() {
           <nav>
             <ul css={navUl}>
               <li css={navLi}>
-                <a href="#l-new">作成</a>
+                <a href='#l-new'>作成</a>
               </li>
               <li css={[navLi, `--color: #ffff6b;`]}>
-                <a href="#a-active">進行中</a>
+                <a href='#a-active'>進行中</a>
               </li>
               <li css={[navLi, `--color: #ff7fbf`]}>
-                <a href="#a-completed">完了済</a>
+                <a href='#a-completed'>完了済</a>
               </li>
             </ul>
           </nav>
         </div>
-      </div>
+      </Container>
     </header>
   );
 }
