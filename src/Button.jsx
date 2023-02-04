@@ -2,7 +2,7 @@ import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-function Button({ cssName, onClick, children }) {
+function Button({ isSubmit, btnId, cssName, onClick, children }) {
   const btn = css`
     cursor: pointer;
     color: var(--color, #fff);
@@ -16,7 +16,12 @@ function Button({ cssName, onClick, children }) {
   `;
 
   return (
-    <button type='button' css={[btn, cssName]} onClick={onClick}>
+    <button
+      type={isSubmit ? 'submit' : 'button'}
+      id={btnId}
+      css={[btn, cssName]}
+      onClick={onClick}
+    >
       {children}
     </button>
   );
