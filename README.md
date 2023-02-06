@@ -44,6 +44,7 @@
 - "@emotion/pkg-renaming": "error" を追加し emotion 11 codemods に対応しました
 - "react/no-unknown-property": ["error", { "ignore": ["css"] }] を追加し emotion 特有の css という prop に対して no-unknown-property ルールがより厳密すぎる判定され eslint がエラーを出す問題に対応しました
 - "react/prop-types": "off" を追加し過剰な prop に対するエラーに対応しました
+- "no-console": "off" を追加し console.log など　 console に対する警告を抑制しました
 
 ## prettier
 

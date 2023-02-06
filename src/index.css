@@ -152,5 +152,6 @@ input[type='checkbox'] {
 }
 
 input[type='text'] {
+  display: block;
   width: 100%;
 }
