@@ -33,7 +33,7 @@ function New() {
       * + * {
         margin-top: 8px;
       }
-      button + button {
+      label + button {
         margin-top: 24px;
       }
     }
@@ -61,11 +61,17 @@ function New() {
     addInput.name = 'task';
 
     taskInputs.appendChild(addInput);
+    const reduce = document.getElementById('btnReduce');
+    reduce.style.display = 'inline';
   };
   const reduceTask = () => {
     const taskInputs = document.getElementById('taskInputs');
     const taskLength = document.getElementsByName('task').length;
     if (taskLength > 1) {
+      if (taskLength === 2) {
+        const reduce = document.getElementById('btnReduce');
+        reduce.style.display = 'none';
+      }
       const lastInput = taskInputs.lastElementChild;
       lastInput.remove();
     }
@@ -108,9 +114,11 @@ function New() {
                 追加する
               </Button>
               <Button
+                btnId='btnReduce'
                 cssName={[
                   blue,
                   css`
+                    display: none;
                     margin-left: 24px;
                   `,
                 ]}
