@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useLayoutEffect, useState } from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Container from './Container';
@@ -37,6 +38,11 @@ function New() {
         margin-top: 24px;
       }
     }
+
+    input {
+      display: block;
+      width: 100%;
+    }
   `;
   const fwBold = css`
     font-weight: bold;
@@ -53,76 +59,119 @@ function New() {
   const size3 = css`
     --size: 3;
   `;
+  const dInline = css`
+    display: inline;
+  `;
+  const dNone = css`
+    display: none;
+  `;
 
-  const addTask = () => {
-    const taskInputs = document.getElementById('taskInputs');
-    const addInput = document.createElement('input');
-    addInput.type = 'text';
-    addInput.name = 'task';
-
-    taskInputs.appendChild(addInput);
-    const reduce = document.getElementById('btnReduce');
-    reduce.style.display = 'inline';
-  };
-  const reduceTask = () => {
-    const taskInputs = document.getElementById('taskInputs');
-    const taskLength = document.getElementsByName('task').length;
-    if (taskLength > 1) {
-      if (taskLength === 2) {
-        const reduce = document.getElementById('btnReduce');
-        reduce.style.display = 'none';
-      }
-      const lastInput = taskInputs.lastElementChild;
-      lastInput.remove();
-    }
-  };
-  const submit = (e) => {
-    e.preventDefault();
-    const newTitle = document.getElementById('newTitle').value;
-    const newTasks = document.getElementsByName('task');
-    const newTasksValue = [];
-    newTasks.forEach((item) => {
-      if (item.value) {
-        newTasksValue.push(item.value);
+  const { register, handleSubmit, control, reset } = useForm({
+    defaultValues: {
+      title: '',
+      tasks: '',
+    },
+  });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'tasks',
+  });
+  const [isError, setIsError] = useState(false);
+  const onSubmit = (data) => {
+    const dataTask = data.tasks;
+    const taskValues = [];
+    dataTask.forEach((item) => {
+      if (item.task) {
+        taskValues.push(item.task);
       }
     });
-    console.log(newTitle);
-    console.log(newTasksValue);
+    if (taskValues === []) {
+      setIsError(true);
+    } else {
+      setIsError(false);
+      console.log(data.title, taskValues);
+      reset();
+    }
   };
+  const [isInline, setIsInline] = useState(false);
+  const [taskCount, setTaskCount] = useState(0);
+  const addTaskCount = () => {
+    setTaskCount(taskCount + 1);
+    if (taskCount > -1) {
+      setIsInline(true);
+    }
+    console.log(taskCount);
+  };
+  const reduceTaskCount = () => {
+    setTaskCount(taskCount - 1);
+    if (taskCount < 2) {
+      setIsInline(false);
+    }
+    console.log(taskCount);
+  };
+  useLayoutEffect(() => {
+    append();
+  }, []);
+
   return (
     <section id='l-new' css={secNew}>
       <Container>
         <h2>作成</h2>
-        <p>することの入力欄の1番上は必ず入力してください</p>
+        <p>することを1つ以上は必ず入力してください</p>
         <Board cssName={boardNew}>
-          <form action='' method='GET' name='new' css={form}>
+          <form
+            action=''
+            method='GET'
+            name='new'
+            css={form}
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div>
               <label htmlFor='newTitle'>
                 <span css={fwBold}>タイトル</span>
                 <br />
-                <input type='text' id='newTitle' />
+                <input {...register('title')} />
                 <br />
               </label>
-              <label htmlFor='task'>
+              <label htmlFor='tasks'>
                 <span css={fwBold}>すること</span>
                 <br />
+                <span
+                  css={[
+                    isError ? dInline : dNone,
+                    fwBold,
+                    css`
+                      color: #ff6c00;
+                    `,
+                  ]}
+                >
+                  することを1つ以上は必ず入力してください
+                </span>
                 <div id='taskInputs'>
-                  <input type='text' name='task' id='taskInput0' required />
+                  {fields.map((field, index) => (
+                    <input
+                      key={field.id}
+                      {...register(`tasks.${index}.task`)}
+                    />
+                  ))}
                 </div>
               </label>
-              <Button cssName={pink} onClick={addTask}>
+              <Button
+                cssName={pink}
+                onClick={() => [(append({ task: '' }), addTaskCount())]}
+              >
                 追加する
               </Button>
               <Button
                 btnId='btnReduce'
                 cssName={[
+                  isInline ? dInline : dNone,
                   blue,
                   css`
-                    display: none;
                     margin-left: 24px;
                   `,
                 ]}
-                onClick={reduceTask}
+                onClick={() => [remove({ task: '' }), reduceTaskCount()]}
               >
                 枠を減らす
               </Button>
@@ -136,7 +185,6 @@ function New() {
                   align-self: flex-end;
                 `,
               ]}
-              onClick={submit}
             >
               作成
             </Button>

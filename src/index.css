@@ -150,8 +150,3 @@ input[type='checkbox'] {
     margin: 12px 0;
   }
 }
-
-input[type='text'] {
-  display: block;
-  width: 100%;
-}

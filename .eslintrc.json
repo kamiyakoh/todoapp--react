@@ -14,6 +14,7 @@
     "@emotion/pkg-renaming": "error",
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
     "react/prop-types": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }
