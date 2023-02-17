@@ -66,6 +66,7 @@ function New() {
     display: none;
   `;
 
+  // React Hook Form用宣言
   const { register, handleSubmit, control, reset, getValues } = useForm({
     defaultValues: {
       title: '',
@@ -76,6 +77,7 @@ function New() {
     control,
     name: 'tasks',
   });
+  // submitボタンを押した時
   const [isError, setIsError] = useState(false);
   const onSubmit = (data) => {
     const dataTask = data.tasks;
@@ -89,10 +91,15 @@ function New() {
       setIsError(true);
     } else {
       setIsError(false);
-      console.log(data.title, taskValues);
+      const newBoard = {
+        title: data.title,
+        tasks: taskValues,
+      };
+      localStorage.setItem('active', JSON.stringify(newBoard));
       reset();
     }
   };
+  // することのinput欄を増減
   const [isInline, setIsInline] = useState(false);
   const [taskCount, setTaskCount] = useState(0);
   const addTask = () => {
@@ -113,7 +120,6 @@ function New() {
   const [composing, setComposition] = useState(false);
   const startComposition = () => setComposition(true);
   const endComposition = () => setComposition(false);
-
   // input入力時にキーボード操作でinput欄を増減
   const onKeydown = (e, key, index) => {
     const value = getValues(`tasks.${index}.task`);

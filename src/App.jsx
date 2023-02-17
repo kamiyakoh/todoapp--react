@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Header from './Header';
-import New from './New';
+import Todo from './Todo';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
           padding-top: 80px;
         `}
       >
-        <New />
+        <Todo />
       </main>
     </div>
   );
