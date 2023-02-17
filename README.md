@@ -46,6 +46,7 @@
 - "react/prop-types": "off" を追加し過剰な prop に対するエラーに対応しました
 - "no-console": "off" を追加し console.log など console に対する警告を抑制しました
 - "react/jsx-props-no-spreading": "off" を追加し react-hook-form の register に渡す prop に対する過剰なエラーを抑制しました
+- "react/jsx-uses-react": "off", "react/react-in-jsx-scope": "off" を追加し React 17 から不要になった import React from 'react'; の記述になった事に対する過剰なエラーを抑制しました
 
 ## prettier
 

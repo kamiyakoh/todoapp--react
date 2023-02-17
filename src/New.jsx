@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -66,10 +66,10 @@ function New() {
     display: none;
   `;
 
-  const { register, handleSubmit, control, reset } = useForm({
+  const { register, handleSubmit, control, reset, getValues } = useForm({
     defaultValues: {
       title: '',
-      tasks: '',
+      tasks: [{ task: '' }],
     },
   });
   const { fields, append, remove } = useFieldArray({
@@ -95,23 +95,47 @@ function New() {
   };
   const [isInline, setIsInline] = useState(false);
   const [taskCount, setTaskCount] = useState(0);
-  const addTaskCount = () => {
+  const addTask = () => {
+    append({ task: '' });
     setTaskCount(taskCount + 1);
     if (taskCount > -1) {
       setIsInline(true);
     }
-    console.log(taskCount);
   };
-  const reduceTaskCount = () => {
+  const reduceTask = (number) => {
+    remove(number);
     setTaskCount(taskCount - 1);
     if (taskCount < 2) {
       setIsInline(false);
     }
-    console.log(taskCount);
   };
-  useLayoutEffect(() => {
-    append();
-  }, []);
+  // 漢字変換・予測変換（サジェスト）選択中か否かの判定
+  const [composing, setComposition] = useState(false);
+  const startComposition = () => setComposition(true);
+  const endComposition = () => setComposition(false);
+
+  // input入力時にキーボード操作でinput欄を増減
+  const onKeydown = (e, key, index) => {
+    const value = getValues(`tasks.${index}.task`);
+    switch (key) {
+      // 変換中でない時に エンター で input を増やす
+      case 'Enter':
+        e.preventDefault();
+        if (composing) break;
+        addTask();
+        break;
+      // input が空欄時に バックスペース で input を減らす
+      case 'Backspace':
+        console.log(value);
+        if (taskCount === 0) break;
+        if (value === '') {
+          reduceTask(index);
+        }
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <section id='l-new' css={secNew}>
@@ -152,14 +176,14 @@ function New() {
                     <input
                       key={field.id}
                       {...register(`tasks.${index}.task`)}
+                      onCompositionStart={startComposition}
+                      onCompositionEnd={endComposition}
+                      onKeyDown={(e) => onKeydown(e, e.key, index)}
                     />
                   ))}
                 </div>
               </label>
-              <Button
-                cssName={pink}
-                onClick={() => [(append({ task: '' }), addTaskCount())]}
-              >
+              <Button cssName={pink} onClick={addTask}>
                 追加する
               </Button>
               <Button
@@ -171,7 +195,7 @@ function New() {
                     margin-left: 24px;
                   `,
                 ]}
-                onClick={() => [remove({ task: '' }), reduceTaskCount()]}
+                onClick={() => reduceTask(taskCount)}
               >
                 枠を減らす
               </Button>
