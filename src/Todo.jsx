@@ -5,10 +5,13 @@ import { css } from '@emotion/react';
 import Container from './Container';
 import Board from './Board';
 import Button from './Button';
+import Wrapper from './Wrapper';
 
 function New() {
-  const breakpoints = [600, 960];
-  const mq = breakpoints.map((bp) => `@media (width < ${bp}px)`);
+  const breakpoints = { sp: 600, tab: 960 };
+  function mq(bp) {
+    return `@media (width < ${breakpoints[bp]}px)`;
+  }
 
   const secNew = css`
     padding: 32px 0 32px;
@@ -22,8 +25,7 @@ function New() {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-
-    ${mq[0]} {
+    ${mq('sp')} {
       flex-direction: column;
       justify-content: flex-start;
       align-items: flex-start;
@@ -65,6 +67,9 @@ function New() {
   const dNone = css`
     display: none;
   `;
+  const sec = css`
+    padding: 32px 0;
+  `;
 
   // React Hook Form用宣言
   const { register, handleSubmit, control, reset, getValues } = useForm({
@@ -77,6 +82,8 @@ function New() {
     control,
     name: 'tasks',
   });
+  // 進行中
+  const activeBoards = JSON.parse(localStorage.getItem('active')) || [];
   // submitボタンを押した時
   const [isError, setIsError] = useState(false);
   const onSubmit = (data) => {
@@ -84,7 +91,7 @@ function New() {
     const taskValues = [];
     dataTask.forEach((item) => {
       if (item.task) {
-        taskValues.push(item.task);
+        taskValues.push({ taskNum: taskValues.length || 0, value: item.task });
       }
     });
     if (taskValues === []) {
@@ -92,10 +99,12 @@ function New() {
     } else {
       setIsError(false);
       const newBoard = {
+        id: activeBoards.length || 0,
         title: data.title,
         tasks: taskValues,
       };
-      localStorage.setItem('active', JSON.stringify(newBoard));
+      const newActive = [...activeBoards, { ...newBoard }];
+      localStorage.setItem('active', JSON.stringify(newActive));
       reset();
     }
   };
@@ -144,84 +153,119 @@ function New() {
   };
 
   return (
-    <section id='l-new' css={secNew}>
-      <Container>
-        <h2>作成</h2>
-        <p>することを1つ以上は必ず入力してください</p>
-        <Board cssName={boardNew}>
-          <form
-            action=''
-            method='GET'
-            name='new'
-            css={form}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <div>
-              <label htmlFor='newTitle'>
-                <span css={fwBold}>タイトル</span>
-                <br />
-                <input {...register('title')} />
-                <br />
-              </label>
-              <label htmlFor='tasks'>
-                <span css={fwBold}>すること</span>
-                <br />
-                <span
-                  css={[
-                    isError ? dInline : dNone,
-                    fwBold,
+    <>
+      <section id='l-new' css={secNew}>
+        <Container>
+          <h2>作成</h2>
+          <p>することを1つ以上は必ず入力してください</p>
+          <Board cssName={boardNew}>
+            <form
+              action=''
+              method='GET'
+              name='new'
+              css={form}
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <div>
+                <label htmlFor='newTitle'>
+                  <span css={fwBold}>タイトル</span>
+                  <br />
+                  <input {...register('title')} />
+                  <br />
+                </label>
+                <label htmlFor='tasks'>
+                  <span css={fwBold}>すること</span>
+                  <br />
+                  <span
+                    css={[
+                      isError ? dInline : dNone,
+                      fwBold,
+                      css`
+                        color: #ff6c00;
+                      `,
+                    ]}
+                  >
+                    することを1つ以上は必ず入力してください
+                  </span>
+                  <div id='taskInputs'>
+                    {fields.map((field, index) => (
+                      <input
+                        key={field.id}
+                        {...register(`tasks.${index}.task`)}
+                        onCompositionStart={startComposition}
+                        onCompositionEnd={endComposition}
+                        onKeyDown={(e) => onKeydown(e, e.key, index)}
+                      />
+                    ))}
+                  </div>
+                </label>
+                <Button cssName={pink} onClick={addTask}>
+                  追加する
+                </Button>
+                <Button
+                  btnId='btnReduce'
+                  cssName={[
+                    isInline ? dInline : dNone,
+                    blue,
                     css`
-                      color: #ff6c00;
+                      margin-left: 24px;
                     `,
                   ]}
+                  onClick={() => reduceTask(taskCount)}
                 >
-                  することを1つ以上は必ず入力してください
-                </span>
-                <div id='taskInputs'>
-                  {fields.map((field, index) => (
-                    <input
-                      key={field.id}
-                      {...register(`tasks.${index}.task`)}
-                      onCompositionStart={startComposition}
-                      onCompositionEnd={endComposition}
-                      onKeyDown={(e) => onKeydown(e, e.key, index)}
-                    />
-                  ))}
-                </div>
-              </label>
-              <Button cssName={pink} onClick={addTask}>
-                追加する
-              </Button>
+                  枠を減らす
+                </Button>
+              </div>
               <Button
-                btnId='btnReduce'
+                isSubmit
                 cssName={[
-                  isInline ? dInline : dNone,
-                  blue,
+                  yellow,
+                  size3,
                   css`
-                    margin-left: 24px;
+                    align-self: flex-end;
                   `,
                 ]}
-                onClick={() => reduceTask(taskCount)}
               >
-                枠を減らす
+                作成
               </Button>
-            </div>
-            <Button
-              isSubmit
-              cssName={[
-                yellow,
-                size3,
-                css`
-                  align-self: flex-end;
-                `,
-              ]}
-            >
-              作成
-            </Button>
-          </form>
-        </Board>
-      </Container>
-    </section>
+            </form>
+          </Board>
+        </Container>
+      </section>
+      <section
+        css={[
+          sec,
+          css`
+            background: #fbfbab;
+          `,
+        ]}
+      >
+        <div id='a-active' />
+        <Container>
+          <h2>進行中</h2>
+          <Wrapper>
+            {activeBoards.map((obj) => (
+              <Board cssName={yellow} key={obj.id}>
+                <div>
+                  <h3
+                    css={css`
+                      color: #ffff6b;
+                    `}
+                  >
+                    {obj.title}
+                  </h3>
+                  <ul>
+                    {obj.tasks.map((task) => (
+                      <li key={task.taskNum}>{task.value}</li>
+                    ))}
+                  </ul>
+                </div>
+              </Board>
+            ))}
+          </Wrapper>
+        </Container>
+      </section>
+    </>
   );
 }
 export default New;
