@@ -6,6 +6,7 @@ import Container from './Container';
 import Board from './Board';
 import Button from './Button';
 import Wrapper from './Wrapper';
+import Activeboard from './Activeboard';
 
 function New() {
   const breakpoints = { sp: 600, tab: 960 };
@@ -84,19 +85,27 @@ function New() {
   });
   // 進行中
   const activeBoards = JSON.parse(localStorage.getItem('active')) || [];
+  const [count, setCount] = useState(0);
+  const handleChildrenClick = () => {
+    setCount(count + 1);
+  };
   // submitボタンを押した時
   const [isError, setIsError] = useState(false);
-  const onSubmit = (data) => {
+  let isTask = false;
+  const submitNew = (data) => {
     const dataTask = data.tasks;
     const taskValues = [];
     dataTask.forEach((item) => {
       if (item.task) {
-        taskValues.push({ taskNum: taskValues.length || 0, value: item.task });
+        taskValues.push({
+          taskNum: taskValues.length || 0,
+          value: item.task,
+          checked: false,
+        });
+        isTask = true;
       }
     });
-    if (taskValues === []) {
-      setIsError(true);
-    } else {
+    if (isTask) {
       setIsError(false);
       const newBoard = {
         id: activeBoards.length || 0,
@@ -106,6 +115,9 @@ function New() {
       const newActive = [...activeBoards, { ...newBoard }];
       localStorage.setItem('active', JSON.stringify(newActive));
       reset();
+      isTask = false;
+    } else {
+      setIsError(true);
     }
   };
   // することのinput欄を増減
@@ -159,13 +171,7 @@ function New() {
           <h2>作成</h2>
           <p>することを1つ以上は必ず入力してください</p>
           <Board cssName={boardNew}>
-            <form
-              action=''
-              method='GET'
-              name='new'
-              css={form}
-              onSubmit={handleSubmit(onSubmit)}
-            >
+            <form css={form} onSubmit={handleSubmit(submitNew)}>
               <div>
                 <label htmlFor='newTitle'>
                   <span css={fwBold}>タイトル</span>
@@ -245,22 +251,13 @@ function New() {
           <h2>進行中</h2>
           <Wrapper>
             {activeBoards.map((obj) => (
-              <Board cssName={yellow} key={obj.id}>
-                <div>
-                  <h3
-                    css={css`
-                      color: #ffff6b;
-                    `}
-                  >
-                    {obj.title}
-                  </h3>
-                  <ul>
-                    {obj.tasks.map((task) => (
-                      <li key={task.taskNum}>{task.value}</li>
-                    ))}
-                  </ul>
-                </div>
-              </Board>
+              <Activeboard
+                boardId={obj.id}
+                title={obj.title}
+                key={obj.id}
+                count={count}
+                handleBoard={handleChildrenClick}
+              />
             ))}
           </Wrapper>
         </Container>
