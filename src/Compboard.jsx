@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import Board from './Board';
 import Button from './Button';
 
-function Compboard({ boardId, title, handleBoard }) {
+function Compboard({ boardId, title, checked, handleBoard, onToggle }) {
   const breakpoints = { sp: 600, tab: 960 };
   function mq(bp) {
     return `@media (width < ${breakpoints[bp]}px)`;
@@ -62,7 +62,17 @@ function Compboard({ boardId, title, handleBoard }) {
     <Board cssName={pink}>
       <div css={boardInner}>
         <div>
-          <h3>{title}</h3>
+          <h3>
+            <input
+              type='checkbox'
+              css={css`
+                vertical-align: middle;
+              `}
+              checked={checked}
+              onChange={onToggle}
+            />
+            {title}
+          </h3>
           <ul>
             {board.tasks.map((task) => (
               <li

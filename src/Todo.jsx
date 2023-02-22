@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -96,6 +96,33 @@ function New() {
   const handleCompBoard = () => {
     setCompCount(compCount + 1);
   };
+  const [checkedIds, setCheckedIds] = useState([]);
+  useEffect(() => {
+    const ids = [];
+    compBoards.map((item) => ids.push({ id: item.id, checked: false }));
+    setCheckedIds(ids);
+  }, [compCount, activeCount]);
+  const handleToggle = (id) => {
+    const newCheckedIds = [...checkedIds];
+    newCheckedIds[id].checked = !newCheckedIds[id].checked;
+    setCheckedIds(newCheckedIds);
+  };
+  const dels = () => {
+    const newCheckedIds = checkedIds.filter((item) => item.checked);
+    newCheckedIds.forEach((item) => {
+      delete compBoards[item.id];
+    });
+    const filteredComp = compBoards.filter(Boolean);
+    const fixedIdActive = filteredComp.map((item, index) => {
+      console.log();
+      return {
+        ...item,
+        id: index,
+      };
+    });
+    localStorage.setItem('comp', JSON.stringify(fixedIdActive));
+    setCompCount(compCount + 1);
+  };
   // submitボタンを押した時
   const [isError, setIsError] = useState(false);
   let isTask = false;
@@ -170,6 +197,7 @@ function New() {
         break;
     }
   };
+  console.log(activeBoards);
 
   return (
     <>
@@ -245,54 +273,75 @@ function New() {
           </Board>
         </Container>
       </section>
-      <section
-        css={[
-          sec,
-          css`
-            background: #fbfbab;
-          `,
-        ]}
-      >
-        <div id='a-active' />
-        <Container>
-          <h2>進行中</h2>
-          <Wrapper>
-            {activeBoards.map((obj) => (
-              <Activeboard
-                boardId={obj.id}
-                title={obj.title}
-                key={obj.id}
-                count={activeCount}
-                handleBoard={handleActiveBoard}
-              />
-            ))}
-          </Wrapper>
-        </Container>
-      </section>
-      <section
-        css={[
-          sec,
-          css`
-            background: #ffd9ec;
-          `,
-        ]}
-      >
-        <div id='a-comp' />
-        <Container>
-          <h2>完了済</h2>
-          <Wrapper>
-            {compBoards.map((obj) => (
-              <Compboard
-                boardId={obj.id}
-                title={obj.title}
-                key={obj.id}
-                count={compCount}
-                handleBoard={handleCompBoard}
-              />
-            ))}
-          </Wrapper>
-        </Container>
-      </section>
+      {activeBoards.length === 0 || (
+        <section
+          css={[
+            sec,
+            css`
+              background: #fbfbab;
+            `,
+          ]}
+        >
+          <div id='a-active' />
+          <Container>
+            <h2>進行中</h2>
+            <Wrapper>
+              {activeBoards.map((obj) => (
+                <Activeboard
+                  boardId={obj.id}
+                  title={obj.title}
+                  key={obj.id}
+                  handleBoard={handleActiveBoard}
+                />
+              ))}
+            </Wrapper>
+          </Container>
+        </section>
+      )}
+      {compBoards.length === 0 || (
+        <section
+          css={[
+            sec,
+            css`
+              background: #ffd9ec;
+            `,
+          ]}
+        >
+          <div id='a-comp' />
+          <Container>
+            <h2>完了済</h2>
+            <Wrapper>
+              {compBoards.map((obj) => (
+                <Compboard
+                  boardId={obj.id}
+                  title={obj.title}
+                  onToggle={() => handleToggle(obj.id)}
+                  key={obj.id}
+                  handleBoard={handleCompBoard}
+                />
+              ))}
+            </Wrapper>
+            <p>
+              まとめて削除したい完了済黒板の
+              <br />
+              左上のチェックボックスを押してから
+              <br />
+              ↓下の
+              <strong
+                css={css`
+                  color: #6fd1ff;
+                `}
+              >
+                まとめて削除ボタン
+              </strong>
+              を押してください
+            </p>
+            <Button cssName={[size3, blue]} onClick={dels}>
+              まとめて削除
+            </Button>
+          </Container>
+        </section>
+      )}
     </>
   );
 }
