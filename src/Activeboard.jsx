@@ -22,7 +22,7 @@ function Activeboard({ boardId, title, handleBoard }) {
   const size2 = css`
     --size: 2;
   `;
-  const formStyle = css`
+  const boardInner = css`
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: flex-start;
@@ -112,7 +112,7 @@ function Activeboard({ boardId, title, handleBoard }) {
 
   return (
     <Board cssName={yellow}>
-      <form css={formStyle} onSubmit={onSubmit}>
+      <form css={boardInner} onSubmit={onSubmit}>
         <div>
           <input type='hidden' name='title' value={title} />
           <h3
@@ -138,16 +138,7 @@ function Activeboard({ boardId, title, handleBoard }) {
         </div>
         <div css={btnArea}>
           {allChecked && (
-            <Button
-              isSubmit
-              cssName={[
-                pink,
-                size2,
-                css`
-                  align-self: flex-end;
-                `,
-              ]}
-            >
+            <Button isSubmit cssName={[pink, size2]}>
               完了
             </Button>
           )}

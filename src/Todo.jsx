@@ -7,6 +7,7 @@ import Board from './Board';
 import Button from './Button';
 import Wrapper from './Wrapper';
 import Activeboard from './Activeboard';
+import Compboard from './Compboard';
 
 function New() {
   const breakpoints = { sp: 600, tab: 960 };
@@ -85,9 +86,15 @@ function New() {
   });
   // 進行中
   const activeBoards = JSON.parse(localStorage.getItem('active')) || [];
-  const [count, setCount] = useState(0);
-  const handleChildrenClick = () => {
-    setCount(count + 1);
+  const [activeCount, setActiveCount] = useState(0);
+  const handleActiveBoard = () => {
+    setActiveCount(activeCount + 1);
+  };
+  // 完了済
+  const compBoards = JSON.parse(localStorage.getItem('comp')) || [];
+  const [compCount, setCompCount] = useState(0);
+  const handleCompBoard = () => {
+    setCompCount(compCount + 1);
   };
   // submitボタンを押した時
   const [isError, setIsError] = useState(false);
@@ -255,8 +262,32 @@ function New() {
                 boardId={obj.id}
                 title={obj.title}
                 key={obj.id}
-                count={count}
-                handleBoard={handleChildrenClick}
+                count={activeCount}
+                handleBoard={handleActiveBoard}
+              />
+            ))}
+          </Wrapper>
+        </Container>
+      </section>
+      <section
+        css={[
+          sec,
+          css`
+            background: #ffd9ec;
+          `,
+        ]}
+      >
+        <div id='a-comp' />
+        <Container>
+          <h2>完了済</h2>
+          <Wrapper>
+            {compBoards.map((obj) => (
+              <Compboard
+                boardId={obj.id}
+                title={obj.title}
+                key={obj.id}
+                count={compCount}
+                handleBoard={handleCompBoard}
               />
             ))}
           </Wrapper>
