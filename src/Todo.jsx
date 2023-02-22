@@ -9,12 +9,16 @@ import Wrapper from './Wrapper';
 import Activeboard from './Activeboard';
 import Compboard from './Compboard';
 
-function New() {
+function Todo() {
   const breakpoints = { sp: 600, tab: 960 };
   function mq(bp) {
     return `@media (width < ${breakpoints[bp]}px)`;
   }
 
+  const alink = css`
+    padding-top: 96px;
+    margin-top: -96px;
+  `;
   const secNew = css`
     padding: 32px 0 32px;
   `;
@@ -74,12 +78,13 @@ function New() {
   `;
 
   // React Hook Form用宣言
-  const { register, handleSubmit, control, reset, getValues } = useForm({
-    defaultValues: {
-      title: '',
-      tasks: [{ task: '' }],
-    },
-  });
+  const { register, handleSubmit, control, reset, setFocus, getValues } =
+    useForm({
+      defaultValues: {
+        title: '',
+        tasks: [{ task: '' }],
+      },
+    });
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'tasks',
@@ -148,10 +153,12 @@ function New() {
       };
       const newActive = [...activeBoards, { ...newBoard }];
       localStorage.setItem('active', JSON.stringify(newActive));
+      setFocus('title');
       reset();
       isTask = false;
     } else {
       setIsError(true);
+      setFocus(`tasks.0.task`);
     }
   };
   // することのinput欄を増減
@@ -175,6 +182,19 @@ function New() {
   const [composing, setComposition] = useState(false);
   const startComposition = () => setComposition(true);
   const endComposition = () => setComposition(false);
+  // タイトル入力中にエンターですること入力欄にフォーカス
+  const onKeydownTitle = (e, key) => {
+    switch (key) {
+      // 変換中でない時に エンター で input を増やす
+      case 'Enter':
+        e.preventDefault();
+        if (composing) break;
+        setFocus('tasks.0.task');
+        break;
+      default:
+        break;
+    }
+  };
   // input入力時にキーボード操作でinput欄を増減
   const onKeydown = (e, key, index) => {
     const value = getValues(`tasks.${index}.task`);
@@ -187,10 +207,19 @@ function New() {
         break;
       // input が空欄時に バックスペース で input を減らす
       case 'Backspace':
-        console.log(value);
-        if (taskCount === 0) break;
         if (value === '') {
-          reduceTask(index);
+          if (taskCount === 0) {
+            setFocus('title');
+          } else {
+            reduceTask(index);
+            const prev = index - 1;
+            const prevInput = `tasks.${prev}.task`;
+            if (index === 0) {
+              setFocus('title');
+            } else {
+              setFocus(prevInput);
+            }
+          }
         }
         break;
       default:
@@ -201,7 +230,7 @@ function New() {
 
   return (
     <>
-      <section id='l-new' css={secNew}>
+      <section css={secNew}>
         <Container>
           <h2>作成</h2>
           <p>することを1つ以上は必ず入力してください</p>
@@ -211,7 +240,12 @@ function New() {
                 <label htmlFor='newTitle'>
                   <span css={fwBold}>タイトル</span>
                   <br />
-                  <input {...register('title')} />
+                  <input
+                    {...register('title')}
+                    onCompositionStart={startComposition}
+                    onCompositionEnd={endComposition}
+                    onKeyDown={(e) => onKeydownTitle(e, e.key)}
+                  />
                   <br />
                 </label>
                 <label htmlFor='tasks'>
@@ -282,7 +316,7 @@ function New() {
             `,
           ]}
         >
-          <div id='a-active' />
+          <div id='a-active' css={alink} />
           <Container>
             <h2>進行中</h2>
             <Wrapper>
@@ -307,7 +341,7 @@ function New() {
             `,
           ]}
         >
-          <div id='a-comp' />
+          <div id='a-comp' css={alink} />
           <Container>
             <h2>完了済</h2>
             <Wrapper>
@@ -345,4 +379,5 @@ function New() {
     </>
   );
 }
-export default New;
+
+export default Todo;

@@ -1,4 +1,3 @@
-import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Container from './Container';
@@ -62,13 +61,13 @@ function Header() {
           <nav>
             <ul css={navUl}>
               <li css={navLi}>
-                <a href='#l-new'>作成</a>
+                <a href='#a-new'>作成</a>
               </li>
               <li css={[navLi, `--color: #ffff6b;`]}>
                 <a href='#a-active'>進行中</a>
               </li>
               <li css={[navLi, `--color: #ff7fbf`]}>
-                <a href='#a-completed'>完了済</a>
+                <a href='#a-comp'>完了済</a>
               </li>
             </ul>
           </nav>
