@@ -1,12 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { mq } from './const';
 
 function Board({ cssName, children }) {
-  const breakpoints = { sp: 600, tab: 960 };
-  function mq(bp) {
-    return `@media (width < ${breakpoints[bp]}px)`;
-  }
-
   const board = css`
     position: relative;
     padding: 1em;

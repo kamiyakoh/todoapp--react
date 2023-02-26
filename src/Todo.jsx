@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { mq, pink, blue, yellow, size3, textOrange, fwBold } from './const';
 import Container from './Container';
 import Board from './Board';
 import Button from './Button';
@@ -10,11 +11,6 @@ import Activeboard from './Activeboard';
 import Compboard from './Compboard';
 
 function Todo() {
-  const breakpoints = { sp: 600, tab: 960 };
-  function mq(bp) {
-    return `@media (width < ${breakpoints[bp]}px)`;
-  }
-
   const alink = css`
     padding-top: 96px;
     margin-top: -96px;
@@ -51,21 +47,6 @@ function Todo() {
       display: block;
       width: 100%;
     }
-  `;
-  const fwBold = css`
-    font-weight: bold;
-  `;
-  const pink = css`
-    --color: #ff7fbf;
-  `;
-  const blue = css`
-    --color: #6fd1ff;
-  `;
-  const yellow = css`
-    --color: #ffff6b;
-  `;
-  const size3 = css`
-    --size: 3;
   `;
   const dInline = css`
     display: inline;
@@ -251,15 +232,7 @@ function Todo() {
                 <label htmlFor='tasks'>
                   <span css={fwBold}>すること</span>
                   <br />
-                  <span
-                    css={[
-                      isError ? dInline : dNone,
-                      fwBold,
-                      css`
-                        color: #ff6c00;
-                      `,
-                    ]}
-                  >
+                  <span css={[isError ? dInline : dNone, fwBold, textOrange]}>
                     することを1つ以上は必ず入力してください
                   </span>
                   <div id='taskInputs'>

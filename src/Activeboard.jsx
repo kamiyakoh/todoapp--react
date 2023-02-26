@@ -1,27 +1,11 @@
 import { useState, useEffect } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { yellow, pink, blue, size2, textPink, mq, textYellow } from './const';
 import Board from './Board';
 import Button from './Button';
 
 function Activeboard({ boardId, title, handleBoard }) {
-  const breakpoints = { sp: 600, tab: 960 };
-  function mq(bp) {
-    return `@media (width < ${breakpoints[bp]}px)`;
-  }
-
-  const yellow = css`
-    --color: #ffff6b;
-  `;
-  const pink = css`
-    --color: #ff7fbf;
-  `;
-  const blue = css`
-    --color: #6fd1ff;
-  `;
-  const size2 = css`
-    --size: 2;
-  `;
   const boardInner = css`
     display: grid;
     grid-template-columns: 1fr auto;
@@ -37,7 +21,6 @@ function Activeboard({ boardId, title, handleBoard }) {
     }
   `;
   const isChecked = css`
-    color: #ff7fbf;
     text-decoration: line-through;
   `;
   const btnArea = css`
@@ -115,13 +98,7 @@ function Activeboard({ boardId, title, handleBoard }) {
       <form css={boardInner} onSubmit={onSubmit}>
         <div>
           <input type='hidden' name='title' value={title} />
-          <h3
-            css={css`
-              color: #ffff6b;
-            `}
-          >
-            {title}
-          </h3>
+          <h3 css={textYellow}>{title}</h3>
           {taskList.map((task) => (
             <div key={task.taskNum}>
               <input
@@ -132,7 +109,9 @@ function Activeboard({ boardId, title, handleBoard }) {
                 checked={task.checked}
                 onChange={(e) => onChange(e, task.taskNum)}
               />
-              <span css={task.checked ? isChecked : ''}>{task.value}</span>
+              <span css={task.checked ? [isChecked, textPink] : ''}>
+                {task.value}
+              </span>
             </div>
           ))}
         </div>

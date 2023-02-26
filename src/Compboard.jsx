@@ -1,23 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { mq, pink, blue, size2, textPink } from './const';
 import Board from './Board';
 import Button from './Button';
 
 function Compboard({ boardId, title, checked, handleBoard, onToggle }) {
-  const breakpoints = { sp: 600, tab: 960 };
-  function mq(bp) {
-    return `@media (width < ${breakpoints[bp]}px)`;
-  }
-
-  const pink = css`
-    --color: #ff7fbf;
-  `;
-  const blue = css`
-    --color: #6fd1ff;
-  `;
-  const size2 = css`
-    --size: 2;
-  `;
   const boardInner = css`
     display: grid;
     grid-template-columns: 1fr auto;
@@ -75,12 +62,7 @@ function Compboard({ boardId, title, checked, handleBoard, onToggle }) {
           </h3>
           <ul>
             {board.tasks.map((task) => (
-              <li
-                key={task.taskNum}
-                css={css`
-                  color: #ff7fbf;
-                `}
-              >
+              <li key={task.taskNum} css={textPink}>
                 {task.value}
               </li>
             ))}
