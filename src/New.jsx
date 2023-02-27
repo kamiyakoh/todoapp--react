@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
+import toast, { Toaster } from 'react-hot-toast';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import {
@@ -11,8 +12,10 @@ import {
   textOrange,
   dInline,
   dNone,
+  fs3,
   fwBold,
   singleBoard,
+  toastBoard,
 } from './const';
 import Container from './Container';
 import Board from './Board';
@@ -21,6 +24,22 @@ import Button from './Button';
 function New() {
   const secNew = css`
     padding: 32px 0 32px;
+  `;
+  const counter = css`
+    display: flex;
+    justify-content: space-evenly;
+    ${mq('sp')} {
+      justify-content: space-around;
+    }
+  `;
+  const sizeResp = css`
+    --size: 3;
+    ${mq('tab')} {
+      --size: 2;
+    }
+    ${mq('sp')} {
+      --size: 1.5;
+    }
   `;
   const form = css`
     display: flex;
@@ -99,8 +118,10 @@ function New() {
       setFocus('title');
       reset();
       isTask = false;
+      toast.success('作成しました');
     } else {
       setIsError(true);
+      toast.error('することを入力してください');
       setFocus(`tasks.0.task`);
     }
   };
@@ -171,12 +192,14 @@ function New() {
   };
 
   return (
-    <section css={secNew}>
-      <Container>
-        <h2>作成</h2>
+    <div css={secNew}>
+      <Container isSingle>
+        <h2 css={fs3}>作成</h2>
         <p>することを1つ以上は必ず入力してください</p>
-        <p>進行中 {activeCount}</p>
-        <p>完了済 {comps.length}</p>
+        <Board cssName={[singleBoard, yellow, counter]}>
+          <Button cssName={[yellow, sizeResp]}>進行中 {activeCount}</Button>
+          <Button cssName={[pink, sizeResp]}>完了済 {comps.length}</Button>
+        </Board>
         <Board cssName={singleBoard}>
           <form css={form} onSubmit={handleSubmit(submitNew)}>
             <div>
@@ -241,7 +264,13 @@ function New() {
           </form>
         </Board>
       </Container>
-    </section>
+      <Toaster
+        toastOptions={{
+          className: '',
+          style: toastBoard,
+        }}
+      />
+    </div>
   );
 }
 

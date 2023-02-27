@@ -1,8 +1,8 @@
 # todoapp--react
 
 **"todoapp--react"** は create-react-app で作成しました  
-黒板デザインのToDoアプリです  
-作成黒板のすることの入力欄には1つ以上必ず入力してください
+黒板デザインの ToDo アプリです  
+作成黒板のすることの入力欄には 1 つ以上必ず入力してください
 
 ## 機能
 
@@ -17,6 +17,8 @@
 - yarn 1.22.5
 - react 18.2.0
 - react-hook-form 7.43.1
+- react-router-dom 6.8.1
+- react-hot-toast 2.4.0
 - emotion/react 11.10.5
 - prettier 2.8.3
 - eslint 8.33.0

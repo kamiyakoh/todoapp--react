@@ -20,14 +20,14 @@ function Header() {
     justify-content: space-between;
   `;
   const headerTtl = css`
-    ${mq[0]} {
+    ${mq('sp')} {
       font-size: 16px;
       text-align: center;
     }
   `;
   const headerBr = css`
     display: none;
-    ${mq[0]} {
+    ${mq('sp')} {
       display: block;
     }
   `;

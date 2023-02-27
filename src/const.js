@@ -35,11 +35,21 @@ export const dInline = css`
 export const dNone = css`
   display: none;
 `;
+export const fs3 = css`
+  font-size: 3rem;
+`;
 export const fwBold = css`
   font-weight: bold;
 `;
 export const singleBoard = css`
-  max-width: 640px;
   width: 100%;
   margin: 2em auto;
 `;
+export const toastBoard = {
+  padding: '1em',
+  background: '#202020',
+  color: '#fff',
+  border: '8px solid #8b4513',
+  borderRadius: '3px',
+  boxShadow: '0 0 5px #333, 0 0 5px #555 inset',
+};
