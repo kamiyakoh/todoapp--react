@@ -1,19 +1,22 @@
+import { BrowserRouter } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Header from './Header';
-import Todo from './Todo';
+import Router from './router/Router';
 
 function App() {
   return (
     <div id='a-new' className='App'>
-      <Header />
-      <main
-        css={css`
-          padding-top: 80px;
-        `}
-      >
-        <Todo />
-      </main>
+      <BrowserRouter>
+        <Header />
+        <main
+          css={css`
+            padding-top: 80px;
+          `}
+        >
+          <Router />
+        </main>
+      </BrowserRouter>
     </div>
   );
 }

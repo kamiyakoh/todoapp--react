@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { mq, pink, yellow } from './const';
+import { mq } from './const';
 import Container from './Container';
 
 function Header() {
@@ -13,31 +14,26 @@ function Header() {
     padding: 16px 0;
     z-index: 10;
   `;
-
   const headerFlex = css`
     display: flex;
     align-items: center;
     justify-content: space-between;
   `;
-
   const headerTtl = css`
     ${mq[0]} {
       font-size: 16px;
       text-align: center;
     }
   `;
-
   const headerBr = css`
     display: none;
     ${mq[0]} {
       display: block;
     }
   `;
-
   const navUl = css`
     display: flex;
   `;
-
   const navLi = css`
     color: var(--color, #fff);
     font-weight: bold;
@@ -57,15 +53,9 @@ function Header() {
           </h1>
           <nav>
             <ul css={navUl}>
-              <li css={navLi}>
-                <a href='#a-new'>作成</a>
-              </li>
-              <li css={[navLi, yellow]}>
-                <a href='#a-active'>進行中</a>
-              </li>
-              <li css={[navLi, pink]}>
-                <a href='#a-comp'>完了済</a>
-              </li>
+              <Link to='/' css={navLi}>
+                作成
+              </Link>
             </ul>
           </nav>
         </div>

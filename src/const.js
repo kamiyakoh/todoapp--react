@@ -29,6 +29,17 @@ export const textPink = css`
 export const textYellow = css`
   color: #ffff6b;
 `;
+export const dInline = css`
+  display: inline;
+`;
+export const dNone = css`
+  display: none;
+`;
 export const fwBold = css`
   font-weight: bold;
+`;
+export const singleBoard = css`
+  max-width: 640px;
+  width: 100%;
+  margin: 2em auto;
 `;
