@@ -21,7 +21,7 @@ import Container from './Container';
 import Board from './Board';
 import Button from './Button';
 
-function New() {
+function New({ active, comp, setNewActive }) {
   const secNew = css`
     padding: 32px 0 32px;
   `;
@@ -79,16 +79,9 @@ function New() {
     control,
     name: 'tasks',
   });
-  // 進行中
-  const [actives, setActives] = useState([]);
+  // 進行中カウント
   const [activeCount, setActiveCount] = useState(0);
-  useEffect(
-    () => setActives(JSON.parse(localStorage.getItem('active')) || []),
-    []
-  );
-  useEffect(() => setActiveCount(actives.length), [actives]);
-  // 完了済
-  const comps = JSON.parse(localStorage.getItem('comp')) || [];
+  useEffect(() => setActiveCount(active.length), [active]);
   // submitボタンを押した時
   const [isError, setIsError] = useState(false);
   let isTask = false;
@@ -108,13 +101,13 @@ function New() {
     if (isTask) {
       setIsError(false);
       const newBoard = {
-        id: actives.length || 0,
+        id: active.length || 0,
         title: data.title,
         tasks: taskValues,
       };
-      const newActive = [...actives, { ...newBoard }];
+      const newActive = [...active, { ...newBoard }];
       localStorage.setItem('active', JSON.stringify(newActive));
-      setActives(newActive);
+      setNewActive(newActive);
       setFocus('title');
       reset();
       isTask = false;
@@ -198,7 +191,7 @@ function New() {
         <p>することを1つ以上は必ず入力してください</p>
         <Board cssName={[singleBoard, yellow, counter]}>
           <Button cssName={[yellow, sizeResp]}>進行中 {activeCount}</Button>
-          <Button cssName={[pink, sizeResp]}>完了済 {comps.length}</Button>
+          <Button cssName={[pink, sizeResp]}>完了済 {comp.length}</Button>
         </Board>
         <Board cssName={singleBoard}>
           <form css={form} onSubmit={handleSubmit(submitNew)}>
