@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import New from '../New';
 import Active from '../Active';
+import EditActive from '../EditActive';
 
 function Router() {
   // 進行中
@@ -29,17 +30,23 @@ function Router() {
           <New active={active} comp={comp} setNewActive={setNewActive} />
         }
       />
-      <Route
-        path='active'
-        element={
-          <Active
-            active={active}
-            comp={comp}
-            setNewActive={setNewActive}
-            setNewComp={setNewComp}
-          />
-        }
-      />
+      <Route path='active'>
+        <Route
+          path=''
+          element={
+            <Active
+              active={active}
+              comp={comp}
+              setNewActive={setNewActive}
+              setNewComp={setNewComp}
+            />
+          }
+        />
+        <Route
+          path=':id'
+          element={<EditActive active={active} setNewActive={setNewActive} />}
+        />
+      </Route>
     </Routes>
   );
 }

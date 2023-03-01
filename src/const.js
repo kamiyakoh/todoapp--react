@@ -14,6 +14,9 @@ export const blue = css`
 export const yellow = css`
   --color: #ffff6b;
 `;
+export const green = css`
+  --color: #8fff70;
+`;
 export const size2 = css`
   --size: 2;
 `;
@@ -28,6 +31,9 @@ export const textPink = css`
 `;
 export const textYellow = css`
   color: #ffff6b;
+`;
+export const bgLightYellow = css`
+  background: #fbfbab;
 `;
 export const dInline = css`
   display: inline;
@@ -48,6 +54,42 @@ export const singleBoard = css`
 export const sec = css`
   min-height: calc(100vh - 80px);
   padding: 32px 0;
+`;
+export const form = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  ${mq('sp')} {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  div {
+    * + * {
+      margin-top: 8px;
+    }
+    label + button {
+      margin-top: 24px;
+    }
+  }
+
+  input {
+    display: block;
+    width: 100%;
+  }
+`;
+export const btn = css`
+  cursor: pointer;
+  color: var(--color, #fff);
+  background-color: transparent;
+  border-radius: calc(var(--size, 1) * 2px + 2px);
+  border: solid 2px var(--color, #fff);
+  font-size: calc(var(--size, 1) * 1rem);
+  line-height: 1;
+  padding: calc(var(--size, 1) * 2px + 2px);
+  border-width: calc(var(--size, 1) * 2px);
 `;
 export const toastBoard = {
   padding: '1em',

@@ -1,10 +1,11 @@
+import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import {
-  mq,
+  bgLightYellow,
   pink,
   blue,
   yellow,
@@ -23,43 +24,38 @@ import Container from './Container';
 import Board from './Board';
 import Button from './Button';
 
-function New({ active, comp, setNewActive }) {
-  const counter = css`
-    display: flex;
-    justify-content: space-evenly;
-    ${mq('sp')} {
-      justify-content: space-around;
-    }
-  `;
-  const sizeResp = css`
-    --size: 3;
-    ${mq('tab')} {
-      --size: 2;
-    }
-    ${mq('sp')} {
-      --size: 1.5;
-    }
-  `;
-
+function EditActive({ active, setNewActive }) {
+  const { id } = useParams();
+  const activeBoards = active;
+  const board = activeBoards.find((b) => b.id === Number(id));
+  // tasksのstateの初期設定
+  const [taskList, setTaskList] = useState([]);
+  useEffect(() => {
+    setTaskList(board.tasks);
+  }, []);
   // React Hook Form用宣言
+  const [defaultTasks, setDefaultTasks] = useState([]);
+  useEffect(() => {
+    const arr = [];
+    taskList.forEach((t) => arr.push({ task: t.value }));
+    setDefaultTasks(arr);
+  }, []);
+  console.log(defaultTasks);
   const { register, handleSubmit, control, reset, setFocus, getValues } =
     useForm({
       defaultValues: {
-        title: '',
-        tasks: [{ task: '' }],
+        title: board.title,
+        tasks: defaultTasks,
       },
     });
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'tasks',
   });
-  // 進行中カウント
-  const [activeCount, setActiveCount] = useState(0);
-  useEffect(() => setActiveCount(active.length), [active]);
   // submitボタンを押した時
   const [isError, setIsError] = useState(false);
   const [isTask, setIsTask] = useState(false);
-  const toastSuccess = () => toast.success('作成しました');
+  const toastSuccess = () => toast.success('編集しました');
   const toastError = () => toast.error('することを入力してください');
   const submitNew = (data) => {
     const dataTask = data.tasks;
@@ -160,14 +156,9 @@ function New({ active, comp, setNewActive }) {
   };
 
   return (
-    <div css={sec}>
+    <div css={[sec, bgLightYellow]}>
       <Container isSingle>
-        <h2 css={fs3}>作成</h2>
-        <p>することを1つ以上は必ず入力してください</p>
-        <Board cssName={[singleBoard, yellow, counter]}>
-          <Button cssName={[yellow, sizeResp]}>進行中 {activeCount}</Button>
-          <Button cssName={[pink, sizeResp]}>完了済 {comp.length}</Button>
-        </Board>
+        <h2 css={fs3}>進行中ID： {id}</h2>
         <Board cssName={singleBoard}>
           <form css={form} onSubmit={handleSubmit(submitNew)}>
             <div>
@@ -193,6 +184,7 @@ function New({ active, comp, setNewActive }) {
                     <input
                       key={field.id}
                       {...register(`tasks.${index}.task`)}
+                      defaultValue={field.value}
                       onCompositionStart={startComposition}
                       onCompositionEnd={endComposition}
                       onKeyDown={(e) => onKeydown(e, e.key, index)}
@@ -227,7 +219,7 @@ function New({ active, comp, setNewActive }) {
                 `,
               ]}
             >
-              作成
+              決定
             </Button>
           </form>
         </Board>
@@ -242,4 +234,4 @@ function New({ active, comp, setNewActive }) {
   );
 }
 
-export default New;
+export default EditActive;

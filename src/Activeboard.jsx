@@ -1,7 +1,18 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { yellow, pink, blue, size2, textPink, mq, textYellow } from './const';
+import {
+  mq,
+  yellow,
+  pink,
+  blue,
+  green,
+  size2,
+  textPink,
+  textYellow,
+  btn,
+} from './const';
 import Board from './Board';
 import Button from './Button';
 
@@ -129,6 +140,9 @@ function Activeboard({
           ))}
         </div>
         <div css={btnArea}>
+          <Link to={`/active/${boardId} `} css={[btn, green, size2]}>
+            編集
+          </Link>
           {allChecked && (
             <Button isSubmit cssName={[pink, size2]}>
               完了

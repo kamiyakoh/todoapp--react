@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import { fs3, sec, toastBoard } from './const';
+// import { css } from '@emotion/react';
+import { fs3, bgLightYellow, sec, toastBoard } from './const';
 import Container from './Container';
 import Wrapper from './Wrapper';
 import Activeboard from './Activeboard';
@@ -16,14 +16,7 @@ function Active({ active, comp, setNewActive, setNewComp }) {
   const toastSubmit = () => toast.success('完了おめでとう');
 
   return (
-    <div
-      css={[
-        sec,
-        css`
-          background: #fbfbab;
-        `,
-      ]}
-    >
+    <div css={[sec, bgLightYellow]}>
       <Container>
         <h2 css={fs3}>進行中： {activeCount}</h2>
         <Wrapper>
