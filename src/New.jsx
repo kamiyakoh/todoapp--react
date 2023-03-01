@@ -14,6 +14,7 @@ import {
   dNone,
   fs3,
   fwBold,
+  sec,
   singleBoard,
   toastBoard,
 } from './const';
@@ -22,9 +23,6 @@ import Board from './Board';
 import Button from './Button';
 
 function New({ active, comp, setNewActive }) {
-  const secNew = css`
-    padding: 32px 0 32px;
-  `;
   const counter = css`
     display: flex;
     justify-content: space-evenly;
@@ -85,6 +83,8 @@ function New({ active, comp, setNewActive }) {
   // submitボタンを押した時
   const [isError, setIsError] = useState(false);
   let isTask = false;
+  const toastSuccess = () => toast.success('作成しました');
+  const toastError = () => toast.error('することを入力してください');
   const submitNew = (data) => {
     const dataTask = data.tasks;
     const taskValues = [];
@@ -106,15 +106,14 @@ function New({ active, comp, setNewActive }) {
         tasks: taskValues,
       };
       const newActive = [...active, { ...newBoard }];
-      localStorage.setItem('active', JSON.stringify(newActive));
       setNewActive(newActive);
       setFocus('title');
       reset();
       isTask = false;
-      toast.success('作成しました');
+      toastSuccess();
     } else {
       setIsError(true);
-      toast.error('することを入力してください');
+      toastError();
       setFocus(`tasks.0.task`);
     }
   };
@@ -185,7 +184,7 @@ function New({ active, comp, setNewActive }) {
   };
 
   return (
-    <div css={secNew}>
+    <div css={sec}>
       <Container isSingle>
         <h2 css={fs3}>作成</h2>
         <p>することを1つ以上は必ず入力してください</p>

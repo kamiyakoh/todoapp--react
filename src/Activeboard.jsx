@@ -5,7 +5,16 @@ import { yellow, pink, blue, size2, textPink, mq, textYellow } from './const';
 import Board from './Board';
 import Button from './Button';
 
-function Activeboard({ boardId, title, handleBoard }) {
+function Activeboard({
+  active,
+  comp,
+  boardId,
+  title,
+  setNewActive,
+  setNewComp,
+  toastDel,
+  toastSubmit,
+}) {
   const boardInner = css`
     display: grid;
     grid-template-columns: 1fr auto;
@@ -32,7 +41,7 @@ function Activeboard({ boardId, title, handleBoard }) {
     }
   `;
 
-  const activeBoards = JSON.parse(localStorage.getItem('active'));
+  const activeBoards = active;
   const board = activeBoards.find((b) => b.id === boardId);
   // tasksのstateの初期設定
   const [taskList, setTaskList] = useState([]);
@@ -58,7 +67,7 @@ function Activeboard({ boardId, title, handleBoard }) {
     localStorage.setItem('active', JSON.stringify(activeBoards));
   };
   // activeから削除
-  const del = () => {
+  const del = (isSubmit) => {
     delete activeBoards[boardId];
     const filteredActive = activeBoards.filter(Boolean);
     const fixedIdActive = filteredActive.map((item, index) => {
@@ -68,13 +77,17 @@ function Activeboard({ boardId, title, handleBoard }) {
         id: index,
       };
     });
-    localStorage.setItem('active', JSON.stringify(fixedIdActive));
-    handleBoard();
+    setNewActive(fixedIdActive);
+    if (isSubmit) {
+      toastSubmit();
+    } else {
+      toastDel();
+    }
   };
   // submitボタンを押した時
   const onSubmit = (event) => {
     event.preventDefault();
-    const compBoards = JSON.parse(localStorage.getItem('comp')) || [];
+    const compBoards = comp;
     const taskValues = [];
     taskList.forEach((item) => {
       taskValues.push({
@@ -89,8 +102,8 @@ function Activeboard({ boardId, title, handleBoard }) {
       tasks: taskValues,
     };
     const newComp = [...compBoards, { ...compBoard }];
-    localStorage.setItem('comp', JSON.stringify(newComp));
-    del();
+    setNewComp(newComp);
+    del(true);
   };
 
   return (
@@ -121,7 +134,7 @@ function Activeboard({ boardId, title, handleBoard }) {
               完了
             </Button>
           )}
-          <Button cssName={[blue, size2]} onClick={del}>
+          <Button cssName={[blue, size2]} onClick={() => del()}>
             削除
           </Button>
         </div>

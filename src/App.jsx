@@ -6,7 +6,7 @@ import Router from './router/Router';
 
 function App() {
   return (
-    <div id='a-new' className='App'>
+    <div>
       <BrowserRouter>
         <Header />
         <main

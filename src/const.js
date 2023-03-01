@@ -45,6 +45,10 @@ export const singleBoard = css`
   width: 100%;
   margin: 2em auto;
 `;
+export const sec = css`
+  min-height: calc(100vh - 80px);
+  padding: 32px 0;
+`;
 export const toastBoard = {
   padding: '1em',
   background: '#202020',

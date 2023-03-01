@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { mq } from './const';
+import { mq, yellow, pink } from './const';
 import Container from './Container';
 
 function Header() {
@@ -41,6 +41,9 @@ function Header() {
     border-radius: 4px;
     border: solid 2px var(--color, #fff);
     margin-left: 8px;
+    :visited {
+      color: var(--color, #fff);
+    }
   `;
   return (
     <header css={header}>
@@ -52,11 +55,17 @@ function Header() {
             リスト
           </h1>
           <nav>
-            <ul css={navUl}>
+            <div css={navUl}>
               <Link to='/' css={navLi}>
                 作成
               </Link>
-            </ul>
+              <Link to='/active' css={[navLi, yellow]}>
+                進行中
+              </Link>
+              <Link to='/comp' css={[navLi, pink]}>
+                完了済
+              </Link>
+            </div>
           </nav>
         </div>
       </Container>
