@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
@@ -28,19 +28,10 @@ function EditActive({ active, setNewActive }) {
   const { id } = useParams();
   const activeBoards = active;
   const board = activeBoards.find((b) => b.id === Number(id));
-  // tasksのstateの初期設定
-  const [taskList, setTaskList] = useState([]);
-  useEffect(() => {
-    setTaskList(board.tasks);
-  }, []);
+  const taskList = board.tasks;
   // React Hook Form用宣言
-  const [defaultTasks, setDefaultTasks] = useState([]);
-  useEffect(() => {
-    const arr = [];
-    taskList.forEach((t) => arr.push({ task: t.value }));
-    setDefaultTasks(arr);
-  }, []);
-  console.log(defaultTasks);
+  const defaultTasks = [];
+  taskList.forEach((t) => defaultTasks.push({ task: t.value }));
   const { register, handleSubmit, control, reset, setFocus, getValues } =
     useForm({
       defaultValues: {
@@ -54,10 +45,11 @@ function EditActive({ active, setNewActive }) {
   });
   // submitボタンを押した時
   const [isError, setIsError] = useState(false);
-  const [isTask, setIsTask] = useState(false);
-  const toastSuccess = () => toast.success('編集しました');
   const toastError = () => toast.error('することを入力してください');
-  const submitNew = (data) => {
+  const toastEdit = () => toast.success('編集しました');
+  const navigate = useNavigate();
+  const submitEdit = (data) => {
+    let isTask = false;
     const dataTask = data.tasks;
     const taskValues = [];
     dataTask.forEach((item) => {
@@ -67,22 +59,18 @@ function EditActive({ active, setNewActive }) {
           value: item.task,
           checked: false,
         });
-        setIsTask(true);
+        isTask = true;
       }
     });
     if (isTask) {
       setIsError(false);
-      const newBoard = {
-        id: active.length || 0,
-        title: data.title,
-        tasks: taskValues,
-      };
-      const newActive = [...active, { ...newBoard }];
-      setNewActive(newActive);
-      setFocus('title');
+      board.title = data.title;
+      board.tasks = taskValues;
+      setNewActive(activeBoards);
       reset();
-      setIsTask(false);
-      toastSuccess();
+      isTask = false;
+      toastEdit();
+      setTimeout(() => navigate('/active', { state: { isEdited: true } }), 1);
     } else {
       setIsError(true);
       toastError();
@@ -91,20 +79,22 @@ function EditActive({ active, setNewActive }) {
   };
   // することのinput欄を増減
   const [isInline, setIsInline] = useState(false);
-  const [taskCount, setTaskCount] = useState(0);
+  const [taskCount, setTaskCount] = useState(taskList.length);
+  useEffect(() => {
+    if (taskCount > 1) {
+      setIsInline(true);
+    } else if (taskCount < 2) {
+      setIsInline(false);
+    }
+  }, [taskCount]);
+
   const addTask = () => {
     append({ task: '' });
     setTaskCount(taskCount + 1);
-    if (taskCount > -1) {
-      setIsInline(true);
-    }
   };
   const reduceTask = (number) => {
-    remove(number);
+    remove(number - 1);
     setTaskCount(taskCount - 1);
-    if (taskCount < 2) {
-      setIsInline(false);
-    }
   };
   // 漢字変換・予測変換（サジェスト）選択中か否かの判定
   const [composing, setComposition] = useState(false);
@@ -139,12 +129,12 @@ function EditActive({ active, setNewActive }) {
           if (taskCount === 0) {
             setFocus('title');
           } else {
-            reduceTask(index);
             const prev = index - 1;
             const prevInput = `tasks.${prev}.task`;
             if (index === 0) {
               setFocus('title');
             } else {
+              reduceTask(index);
               setFocus(prevInput);
             }
           }
@@ -160,7 +150,7 @@ function EditActive({ active, setNewActive }) {
       <Container isSingle>
         <h2 css={fs3}>進行中ID： {id}</h2>
         <Board cssName={singleBoard}>
-          <form css={form} onSubmit={handleSubmit(submitNew)}>
+          <form css={form} onSubmit={handleSubmit(submitEdit)}>
             <div>
               <label htmlFor='newTitle'>
                 <span css={fwBold}>タイトル</span>
