@@ -18,7 +18,7 @@ function Active({ active, comp, setNewActive, setNewComp }) {
   return (
     <div css={[sec, bgLightYellow]}>
       <Container>
-        <h2 css={fs3}>進行中： {activeCount}</h2>
+        <h2 css={fs3}>進行中： {activeCount}件</h2>
         <Wrapper>
           {activeBoards.map((obj) => (
             <Activeboard

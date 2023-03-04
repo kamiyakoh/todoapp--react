@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import {
-  mq,
   yellow,
   pink,
   blue,
@@ -27,29 +26,20 @@ function Activeboard({
   toastSubmit,
 }) {
   const boardInner = css`
-    display: grid;
-    grid-template-columns: 1fr auto;
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
     gap: 8px;
     height: 100%;
-    ${mq('sp')} {
-      justify-content: initial;
-      grid-template-rows: auto auto;
-      grid-template-columns: auto;
-      gap: 24px;
-    }
   `;
   const isChecked = css`
     text-decoration: line-through;
   `;
   const btnArea = css`
     display: flex;
-    align-self: flex-end;
-    gap: 16px;
-    ${mq('sp')} {
-      justify-content: flex-end;
-    }
+    justify-content: space-between;
+    width: 100%;
   `;
 
   const activeBoards = active;
@@ -143,14 +133,25 @@ function Activeboard({
           <Link to={`/active/${boardId} `} css={[btn, green, size2]}>
             編集
           </Link>
-          {allChecked && (
-            <Button isSubmit cssName={[pink, size2]}>
-              完了
+          <div>
+            {allChecked && (
+              <Button isSubmit cssName={[pink, size2]}>
+                完了
+              </Button>
+            )}
+            <Button
+              cssName={[
+                blue,
+                size2,
+                css`
+                  margin-left: 16px;
+                `,
+              ]}
+              onClick={() => del()}
+            >
+              削除
             </Button>
-          )}
-          <Button cssName={[blue, size2]} onClick={() => del()}>
-            削除
-          </Button>
+          </div>
         </div>
       </form>
     </Board>

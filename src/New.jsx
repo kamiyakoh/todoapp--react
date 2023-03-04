@@ -58,10 +58,11 @@ function New({ active, comp, setNewActive }) {
   useEffect(() => setActiveCount(active.length), [active]);
   // submitボタンを押した時
   const [isError, setIsError] = useState(false);
-  const [isTask, setIsTask] = useState(false);
+
   const toastSuccess = () => toast.success('作成しました');
   const toastError = () => toast.error('することを入力してください');
   const submitNew = (data) => {
+    let isTask = false;
     const dataTask = data.tasks;
     const taskValues = [];
     dataTask.forEach((item) => {
@@ -71,7 +72,7 @@ function New({ active, comp, setNewActive }) {
           value: item.task,
           checked: false,
         });
-        setIsTask(true);
+        isTask = true;
       }
     });
     if (isTask) {
@@ -85,7 +86,7 @@ function New({ active, comp, setNewActive }) {
       setNewActive(newActive);
       setFocus('title');
       reset();
-      setIsTask(false);
+      isTask = false;
       toastSuccess();
     } else {
       setIsError(true);
@@ -96,19 +97,20 @@ function New({ active, comp, setNewActive }) {
   // することのinput欄を増減
   const [isInline, setIsInline] = useState(false);
   const [taskCount, setTaskCount] = useState(0);
+  useEffect(() => {
+    if (taskCount > 0) {
+      setIsInline(true);
+    } else if (taskCount < 2) {
+      setIsInline(false);
+    }
+  }, [taskCount]);
   const addTask = () => {
     append({ task: '' });
     setTaskCount(taskCount + 1);
-    if (taskCount > -1) {
-      setIsInline(true);
-    }
   };
   const reduceTask = (number) => {
     remove(number);
     setTaskCount(taskCount - 1);
-    if (taskCount < 2) {
-      setIsInline(false);
-    }
   };
   // 漢字変換・予測変換（サジェスト）選択中か否かの判定
   const [composing, setComposition] = useState(false);

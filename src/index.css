@@ -129,8 +129,8 @@ button {
 
 /* ## foundation ##*/
 body {
-  overflow-wrap: break-word;
   word-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 h3 {
