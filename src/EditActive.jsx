@@ -32,13 +32,20 @@ function EditActive({ active, setNewActive }) {
   // React Hook Form用宣言
   const defaultTasks = [];
   taskList.forEach((t) => defaultTasks.push({ task: t.value }));
-  const { register, handleSubmit, control, reset, setFocus, getValues } =
-    useForm({
-      defaultValues: {
-        title: board.title,
-        tasks: defaultTasks,
-      },
-    });
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    setFocus,
+    getValues,
+    formState,
+  } = useForm({
+    defaultValues: {
+      title: board.title,
+      tasks: defaultTasks,
+    },
+  });
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'tasks',
@@ -52,12 +59,15 @@ function EditActive({ active, setNewActive }) {
     let isTask = false;
     const dataTask = data.tasks;
     const taskValues = [];
-    dataTask.forEach((item) => {
+    dataTask.forEach((item, index) => {
       if (item.task) {
+        let isChecked = false;
+        const thisTask = taskList.find((t) => t.taskNum === index);
+        if (thisTask.value === item.task) isChecked = thisTask.checked;
         taskValues.push({
           taskNum: taskValues.length || 0,
           value: item.task,
-          checked: false,
+          checked: isChecked,
         });
         isTask = true;
       }
@@ -199,18 +209,20 @@ function EditActive({ active, setNewActive }) {
                 枠を減らす
               </Button>
             </div>
-            <Button
-              isSubmit
-              cssName={[
-                yellow,
-                size3,
-                css`
-                  align-self: flex-end;
-                `,
-              ]}
-            >
-              決定
-            </Button>
+            {formState.isDirty && (
+              <Button
+                isSubmit
+                cssName={[
+                  yellow,
+                  size3,
+                  css`
+                    align-self: flex-end;
+                  `,
+                ]}
+              >
+                決定
+              </Button>
+            )}
           </form>
         </Board>
       </Container>
