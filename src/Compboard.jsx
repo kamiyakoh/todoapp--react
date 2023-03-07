@@ -4,7 +4,7 @@ import { mq, pink, blue, size2, textPink } from './const';
 import Board from './Board';
 import Button from './Button';
 
-function Compboard({ boardId, title, checked, handleBoard, onToggle }) {
+function Compboard({ comp, boardId, title, setNewComp, toastDel }) {
   const boardInner = css`
     display: grid;
     grid-template-columns: 1fr auto;
@@ -28,38 +28,28 @@ function Compboard({ boardId, title, checked, handleBoard, onToggle }) {
     }
   `;
 
-  const compBoards = JSON.parse(localStorage.getItem('comp'));
+  const compBoards = comp;
   const board = compBoards.find((b) => b.id === boardId);
-  // activeから削除
+  // compから削除
   const del = () => {
     delete compBoards[boardId];
     const filteredComp = compBoards.filter(Boolean);
-    const fixedIdActive = filteredComp.map((item, index) => {
+    const fixedIdComp = filteredComp.map((item, index) => {
       console.log();
       return {
         ...item,
         id: index,
       };
     });
-    localStorage.setItem('comp', JSON.stringify(fixedIdActive));
-    handleBoard();
+    setNewComp(fixedIdComp);
+    toastDel();
   };
 
   return (
     <Board cssName={pink}>
       <div css={boardInner}>
         <div>
-          <h3>
-            <input
-              type='checkbox'
-              css={css`
-                vertical-align: middle;
-              `}
-              checked={checked}
-              onChange={onToggle}
-            />
-            {title}
-          </h3>
+          <h3>{title}</h3>
           <ul>
             {board.tasks.map((task) => (
               <li key={task.taskNum} css={textPink}>

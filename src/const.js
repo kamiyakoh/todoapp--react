@@ -35,6 +35,9 @@ export const textYellow = css`
 export const bgLightYellow = css`
   background: #fbfbab;
 `;
+export const bgLightPink = css`
+  background: #ffd9ec;
+`;
 export const dInline = css`
   display: inline;
 `;

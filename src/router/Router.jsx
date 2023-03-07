@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import New from '../New';
 import Active from '../Active';
 import EditActive from '../EditActive';
+import Comp from '../Comp';
 
 function Router() {
   // 進行中
@@ -47,6 +48,10 @@ function Router() {
           element={<EditActive active={active} setNewActive={setNewActive} />}
         />
       </Route>
+      <Route
+        path='comp'
+        element={<Comp comp={comp} setNewComp={setNewComp} />}
+      />
     </Routes>
   );
 }
