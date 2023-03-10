@@ -7,6 +7,7 @@ import Container from './Container';
 // import Button from './Button';
 import Wrapper from './Wrapper';
 import Compboard from './Compboard';
+import Trash from './Trash';
 
 function Comp({ comp, setNewComp }) {
   const compBoards = comp;
@@ -16,6 +17,7 @@ function Comp({ comp, setNewComp }) {
 
   return (
     <div css={[sec, bgLightPink]}>
+      <Trash />
       <Container>
         <h2 css={fs3}>完了済： {compCount}件</h2>
         <Wrapper>

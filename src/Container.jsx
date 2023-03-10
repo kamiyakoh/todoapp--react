@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-function Container({ isSingle, children }) {
+function Container({ cssName, isSingle, children }) {
   const container = css`
     width: 90%;
     margin: 0 auto;
@@ -13,7 +13,9 @@ function Container({ isSingle, children }) {
     max-width: 1280px;
   `;
 
-  return <div css={[container, isSingle ? single : multi]}>{children}</div>;
+  return (
+    <div css={[container, cssName, isSingle ? single : multi]}>{children}</div>
+  );
 }
 
 export default Container;

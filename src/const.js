@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-const breakpoints = { sp: 600, tab: 960 };
+const breakpoints = { sp: 600, tab: 960, ex: 1422 };
 export function mq(bp) {
   return `@media (width < ${breakpoints[bp]}px)`;
 }
@@ -37,6 +37,9 @@ export const bgLightYellow = css`
 `;
 export const bgLightPink = css`
   background: #ffd9ec;
+`;
+export const dBlock = css`
+  display: block;
 `;
 export const dInline = css`
   display: inline;
