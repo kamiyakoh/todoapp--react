@@ -13,11 +13,28 @@ function Comp({ comp, setNewComp }) {
   const compBoards = comp;
   const [compCount, setcompCount] = useState(0);
   useEffect(() => setcompCount(comp.length), [comp]);
-  const toastDel = () => toast('削除しました', { icon: '🚮' });
+  const [trashComp, setTrashComp] = useState(
+    JSON.parse(localStorage.getItem('trashComp')) || []
+  );
+  const setNewTrashComp = (newTrashComp) => {
+    localStorage.setItem('trashComp', JSON.stringify(newTrashComp));
+    setTrashComp(newTrashComp);
+  };
+  const toastTrash = () => toast('ゴミ箱へ移動しました', { icon: '🚮' });
+  const toastDel = (text) => toast(text, { icon: '💥' });
+  const toastTakeOut = () => toast.success('ゴミ箱から戻しました');
 
   return (
     <div css={[sec, bgLightPink]}>
-      <Trash />
+      <Trash
+        isComp
+        distArr={comp}
+        setDist={setNewComp}
+        trashArr={trashComp}
+        setTrash={setNewTrashComp}
+        toastDel={toastDel}
+        toastTakeOut={toastTakeOut}
+      />
       <Container>
         <h2 css={fs3}>完了済： {compCount}件</h2>
         <Wrapper>
@@ -26,9 +43,11 @@ function Comp({ comp, setNewComp }) {
               comp={comp}
               boardId={obj.id}
               title={obj.title}
+              trashComp={trashComp}
               key={obj.id}
               setNewComp={setNewComp}
-              toastDel={toastDel}
+              setNewTrash={setNewTrashComp}
+              toastTrash={toastTrash}
             />
           ))}
         </Wrapper>

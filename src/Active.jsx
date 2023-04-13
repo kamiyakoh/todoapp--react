@@ -12,7 +12,7 @@ function Active({ active, comp, setNewActive, setNewComp }) {
   const activeBoards = active;
   const [activeCount, setActiveCount] = useState(0);
   useEffect(() => setActiveCount(active.length), [active]);
-  const toastDel = () => toast('削除しました', { icon: '🚮' });
+  const toastTrash = () => toast('ゴミ箱へ移動しました', { icon: '🚮' });
   const toastSubmit = () => toast.success('完了おめでとう');
 
   return (
@@ -29,7 +29,7 @@ function Active({ active, comp, setNewActive, setNewComp }) {
               key={obj.id}
               setNewActive={setNewActive}
               setNewComp={setNewComp}
-              toastDel={toastDel}
+              toastTrash={toastTrash}
               toastSubmit={toastSubmit}
             />
           ))}

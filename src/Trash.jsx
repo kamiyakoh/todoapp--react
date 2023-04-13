@@ -1,11 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import trashbox from './trashbox.png';
-import { mq, dBlock, dNone } from './const';
+import { mq, pink, blue, dBlock, dNone } from './const';
 import Container from './Container';
+import Wrapper from './Wrapper';
+import Button from './Button';
+import TrashBoard from './TrashBoard';
 
-function Trash() {
+function Trash({
+  isComp,
+  distArr,
+  setDist,
+  trashArr,
+  setTrash,
+  toastDel,
+  toastTakeOut,
+}) {
   const bgColor = '#eee';
   const container = css`
     position: fixed;
@@ -24,6 +35,7 @@ function Trash() {
     margin: 5vh auto 0;
   `;
   const btnTrash = css`
+    pointer-events: auto;
     background: ${bgColor};
     border-radius: 5%;
     width: 64px;
@@ -72,13 +84,43 @@ function Trash() {
   `;
   const contents = css`
     position: absolute;
-    text-align: center;
-    top: 10%;
-    left: 10%;
+    top: 15%;
+    left: 6.5%;
     z-index: 40;
-    width: 80%;
-    height: 80%;
+    width: 87%;
+    height: 70%;
     overflow-y: auto;
+  `;
+  const sizeResp = css`
+    --size: 2;
+    ${mq('sp')} {
+      --size: 1.5;
+    }
+  `;
+  const btnAllDel = css`
+    position: absolute;
+    top: 6.5%;
+    margin-left: 6.5%;
+  `;
+  const btnDels = css`
+    position: absolute;
+    bottom: 6.5%;
+    margin-left: 6.5%;
+  `;
+  const label = css`
+    display: flex;
+    width: calc(50% - 1em);
+    padding: 16px 16px 16px 0;
+    ${mq('tab')} {
+      width: 100%;
+    }
+  `;
+  const bgColorChecked = css`
+    background: skyblue;
+  `;
+  const checkbox = css`
+    vertical-align: middle;
+    margin: 0 8px !important;
   `;
   const btnClose = css`
     position: absolute;
@@ -137,9 +179,76 @@ function Trash() {
     setIsScale(false);
     setTimeout(() => setIsOpen(false), 350);
   };
+  const trashBoards = trashArr;
+  const [trashCount, setTrashCount] = useState(0);
+  // useEffect(() => setTrashCount(trashArr.length), [trashArr]);
+  // trashから全破棄
+  const allDel = () => {
+    if (window.confirm('ゴミ箱内を全て破棄しますか？')) {
+      trashBoards.splice(0);
+      setTrash(trashBoards);
+      setTrashCount(0);
+      toastDel('ゴミ箱内を全て破棄しました');
+    }
+  };
+  // trashからまとめて破棄
+  const checkedIdsInit = [];
+  trashBoards.map((item) =>
+    checkedIdsInit.push({ id: item.id, checked: false })
+  );
+  const [checkedIds, setCheckedIds] = useState(checkedIdsInit);
+  useEffect(() => {
+    const ids = [];
+    trashBoards.map((item) => ids.push({ id: item.id, checked: false }));
+    setCheckedIds(ids);
+  }, [trashBoards]);
+  const handleToggle = (id) => {
+    const newCheckedIds = [...checkedIds];
+    newCheckedIds[id].checked = !newCheckedIds[id].checked;
+    setCheckedIds(newCheckedIds);
+    if (newCheckedIds[id].checked) {
+      setTrashCount(trashCount + 1);
+    } else {
+      setTrashCount(trashCount - 1);
+    }
+  };
+  const dels = (count) => {
+    if (trashCount > 0) {
+      if (window.confirm(`ゴミ箱から${count}件を完全に破棄しますか？`)) {
+        const newCheckedIds = checkedIds.filter((item) => item.checked);
+        newCheckedIds.forEach((item) => {
+          delete trashBoards[item.id];
+        });
+        const filteredTrash = trashBoards.filter(Boolean);
+        const fixedIdTrash = filteredTrash.map((item, index) => {
+          console.log();
+          return {
+            ...item,
+            id: index,
+          };
+        });
+        localStorage.setItem('trashComp', JSON.stringify(fixedIdTrash));
+        setTrash(fixedIdTrash);
+        toastDel(`ゴミ箱から${count}件を完全に破棄しました`);
+      }
+    } else {
+      window.alert('まとめて破棄する黒板を選択してボタンを押してください');
+    }
+  };
 
   return (
-    <div css={container}>
+    <div
+      css={[
+        container,
+        isOpen
+          ? css`
+              pointer-events: auto;
+            `
+          : css`
+              pointer-events: none;
+            `,
+      ]}
+    >
       <Container cssName={wrapper}>
         {isOpen || (
           <button type='button' css={btnTrash} onClick={openModal}>
@@ -150,21 +259,55 @@ function Trash() {
           <div css={overlay}>
             <div css={inner}>
               <div css={[base, isScale ? scale : '']} />
+              {isShow && (
+                <Button cssName={[pink, sizeResp, btnAllDel]} onClick={allDel}>
+                  ゴミ箱を空にする
+                </Button>
+              )}
               <div css={[contents, isShow ? dBlock : dNone]}>
-                <h2>Modal Title</h2>
-                <p>Modal content goes here...</p>
-                <p>Modal content goes here...</p>
-                <p>Modal content goes here...</p>
-                <p>Modal content goes here...</p>
-                <p>Modal content goes here...</p>
-                <p>Modal content goes here...</p>
-                <p>Modal content goes here...</p>
-                <p>Modal content goes here...</p>
-                <p>Modal content goes here...</p>
-                <p>Modal content goes here...</p>
-                <p>Modal content goes here...</p>
-                <p>Modal content goes here...</p>
-              </div>{' '}
+                <Wrapper
+                  cssName={css`
+                    padding: 0;
+                  `}
+                >
+                  {trashBoards.map((obj) => (
+                    <label
+                      htmlFor={obj.id}
+                      key={obj.id}
+                      css={[
+                        label,
+                        checkedIds[obj.id].checked ? bgColorChecked : '',
+                      ]}
+                    >
+                      <input
+                        type='checkbox'
+                        id={obj.id}
+                        css={checkbox}
+                        onClick={() => handleToggle(obj.id)}
+                      />
+                      <TrashBoard
+                        isComp={isComp}
+                        distArr={distArr}
+                        trashArr={trashArr}
+                        boardId={obj.id}
+                        title={obj.title}
+                        setDist={setDist}
+                        setTrash={setTrash}
+                        toastDel={toastDel}
+                        toastTakeOut={toastTakeOut}
+                      />
+                    </label>
+                  ))}
+                </Wrapper>
+              </div>
+              {isShow && (
+                <Button
+                  cssName={[blue, sizeResp, btnDels]}
+                  onClick={() => dels(trashCount)}
+                >
+                  まとめて破棄
+                </Button>
+              )}
               {isShow && (
                 <button
                   type='button'

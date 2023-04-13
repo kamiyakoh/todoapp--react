@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-function Wrapper({ children }) {
+function Wrapper({ cssName, children }) {
   const wrapper = css`
     display: flex;
     flex-wrap: wrap;
@@ -10,7 +10,7 @@ function Wrapper({ children }) {
     padding: 2em 0;
   `;
 
-  return <div css={wrapper}>{children}</div>;
+  return <div css={[wrapper, cssName]}>{children}</div>;
 }
 
 export default Wrapper;

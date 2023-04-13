@@ -22,7 +22,7 @@ function Activeboard({
   title,
   setNewActive,
   setNewComp,
-  toastDel,
+  toastTrash,
   toastSubmit,
 }) {
   const boardInner = css`
@@ -68,7 +68,7 @@ function Activeboard({
     localStorage.setItem('active', JSON.stringify(activeBoards));
   };
   // activeから削除
-  const del = (isSubmit) => {
+  const trash = (isSubmit) => {
     delete activeBoards[boardId];
     const filteredActive = activeBoards.filter(Boolean);
     const fixedIdActive = filteredActive.map((item, index) => {
@@ -82,7 +82,7 @@ function Activeboard({
     if (isSubmit) {
       toastSubmit();
     } else {
-      toastDel();
+      toastTrash();
     }
   };
   // submitボタンを押した時
@@ -104,7 +104,7 @@ function Activeboard({
     };
     const newComp = [...compBoards, { ...compBoard }];
     setNewComp(newComp);
-    del(true);
+    trash(true);
   };
 
   return (
@@ -147,7 +147,7 @@ function Activeboard({
                   margin-left: 16px;
                 `,
               ]}
-              onClick={() => del()}
+              onClick={() => trash()}
             >
               削除
             </Button>

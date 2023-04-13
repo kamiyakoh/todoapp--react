@@ -4,7 +4,15 @@ import { mq, pink, blue, size2, textPink } from './const';
 import Board from './Board';
 import Button from './Button';
 
-function Compboard({ comp, boardId, title, setNewComp, toastDel }) {
+function Compboard({
+  comp,
+  boardId,
+  title,
+  trashComp,
+  setNewComp,
+  setNewTrash,
+  toastTrash,
+}) {
   const boardInner = css`
     display: grid;
     grid-template-columns: 1fr auto;
@@ -30,8 +38,12 @@ function Compboard({ comp, boardId, title, setNewComp, toastDel }) {
 
   const compBoards = comp;
   const board = compBoards.find((b) => b.id === boardId);
-  // compから削除
-  const del = () => {
+  // compからゴミ箱へ
+  const trash = () => {
+    const trashArr = trashComp;
+    const newTrashBoard = { ...board, id: trashArr.length };
+    const newTrash = [...trashArr, newTrashBoard];
+    setNewTrash(newTrash);
     delete compBoards[boardId];
     const filteredComp = compBoards.filter(Boolean);
     const fixedIdComp = filteredComp.map((item, index) => {
@@ -42,7 +54,7 @@ function Compboard({ comp, boardId, title, setNewComp, toastDel }) {
       };
     });
     setNewComp(fixedIdComp);
-    toastDel();
+    toastTrash();
   };
 
   return (
@@ -59,7 +71,7 @@ function Compboard({ comp, boardId, title, setNewComp, toastDel }) {
           </ul>
         </div>
         <div css={btnArea}>
-          <Button cssName={[blue, size2]} onClick={del}>
+          <Button cssName={[blue, size2]} onClick={trash}>
             削除
           </Button>
         </div>
