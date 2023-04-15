@@ -20,8 +20,10 @@ function Activeboard({
   comp,
   boardId,
   title,
+  trashActive,
   setNewActive,
   setNewComp,
+  setTrash,
   toastTrash,
   toastSubmit,
 }) {
@@ -49,7 +51,7 @@ function Activeboard({
   const [allChecked, setAllChecked] = useState(false);
   useEffect(() => {
     setTaskList(board.tasks);
-  }, []);
+  }, [activeBoards]);
   useEffect(() => {
     const allItemsChecked = taskList.every((item) => item.checked);
     setAllChecked(allItemsChecked);
@@ -67,7 +69,7 @@ function Activeboard({
     activeBoards[boardId].tasks = updatedTaskList;
     localStorage.setItem('active', JSON.stringify(activeBoards));
   };
-  // activeから削除
+  /* activeから削除
   const trash = (isSubmit) => {
     delete activeBoards[boardId];
     const filteredActive = activeBoards.filter(Boolean);
@@ -84,6 +86,24 @@ function Activeboard({
     } else {
       toastTrash();
     }
+  }; */
+  // activeからゴミ箱へ
+  const trash = () => {
+    const trashArr = trashActive;
+    const newTrashBoard = { ...board, id: trashArr.length };
+    const newTrash = [...trashArr, newTrashBoard];
+    setTrash(newTrash);
+    delete activeBoards[boardId];
+    const filteredActive = activeBoards.filter(Boolean);
+    const fixedIdActive = filteredActive.map((item, index) => {
+      console.log();
+      return {
+        ...item,
+        id: index,
+      };
+    });
+    setNewActive(fixedIdActive);
+    toastTrash();
   };
   // submitボタンを押した時
   const onSubmit = (event) => {
@@ -104,7 +124,17 @@ function Activeboard({
     };
     const newComp = [...compBoards, { ...compBoard }];
     setNewComp(newComp);
-    trash(true);
+    delete activeBoards[boardId];
+    const filteredActive = activeBoards.filter(Boolean);
+    const fixedIdActive = filteredActive.map((item, index) => {
+      console.log();
+      return {
+        ...item,
+        id: index,
+      };
+    });
+    setNewActive(fixedIdActive);
+    toastSubmit();
   };
 
   return (
@@ -147,7 +177,7 @@ function Activeboard({
                   margin-left: 16px;
                 `,
               ]}
-              onClick={() => trash()}
+              onClick={trash}
             >
               削除
             </Button>

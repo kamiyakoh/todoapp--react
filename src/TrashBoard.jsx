@@ -5,7 +5,7 @@ import Board from './Board';
 import Button from './Button';
 
 function TrashBoard({
-  isComp,
+  isActive,
   distArr,
   trashArr,
   boardId,
@@ -36,6 +36,9 @@ function TrashBoard({
     ${mq('sp')} {
       justify-content: flex-end;
     }
+  `;
+  const txtDecLT = css`
+    text-decoration: line-through;
   `;
 
   const trashBoards = trashArr;
@@ -74,7 +77,7 @@ function TrashBoard({
         css`
           width: 100%;
         `,
-        isComp ? pink : yellow,
+        isActive ? yellow : pink,
       ]}
     >
       <div css={boardInner}>
@@ -82,7 +85,10 @@ function TrashBoard({
           <h3>{title}</h3>
           <ul>
             {board.tasks.map((task) => (
-              <li key={task.taskNum} css={task.checked ? textPink : ''}>
+              <li
+                key={task.taskNum}
+                css={task.checked ? [textPink, isActive ? txtDecLT : ''] : ''}
+              >
                 {task.value}
               </li>
             ))}

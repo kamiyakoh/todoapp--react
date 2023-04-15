@@ -181,7 +181,6 @@ function Trash({
   };
   const trashBoards = trashArr;
   const [trashCount, setTrashCount] = useState(0);
-  // useEffect(() => setTrashCount(trashArr.length), [trashArr]);
   // trashから全破棄
   const allDel = () => {
     if (window.confirm('ゴミ箱内を全て破棄しますか？')) {
