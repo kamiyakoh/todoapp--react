@@ -9,7 +9,7 @@ import Button from './Button';
 import TrashBoard from './TrashBoard';
 
 function Trash({
-  isComp,
+  isActive,
   distArr,
   setDist,
   trashArr,
@@ -228,7 +228,7 @@ function Trash({
         });
         localStorage.setItem('trashComp', JSON.stringify(fixedIdTrash));
         setTrash(fixedIdTrash);
-        toastDel(`ゴミ箱から${count}件を完全に破棄しました`);
+        toastDel(`ゴミ箱から${count}件を完全破棄しました`);
       }
     } else {
       window.alert('まとめて破棄する黒板を選択してボタンを押してください');
@@ -282,10 +282,11 @@ function Trash({
                         type='checkbox'
                         id={obj.id}
                         css={checkbox}
+                        checked={obj.checked}
                         onClick={() => handleToggle(obj.id)}
                       />
                       <TrashBoard
-                        isComp={isComp}
+                        isActive={isActive}
                         distArr={distArr}
                         trashArr={trashArr}
                         boardId={obj.id}
