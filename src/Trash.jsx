@@ -166,6 +166,7 @@ function Trash({
   const [isScale, setIsScale] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const openModal = () => {
+    document.body.style.overflow = 'hidden';
     setIsOpen(true);
     wait(0.1)
       .then(() => {
@@ -175,6 +176,7 @@ function Trash({
       .then(() => setIsShow(true));
   };
   const closeModal = () => {
+    document.body.style.overflow = 'auto';
     setIsShow(false);
     setIsScale(false);
     setTimeout(() => setIsOpen(false), 350);
@@ -282,8 +284,8 @@ function Trash({
                         type='checkbox'
                         id={obj.id}
                         css={checkbox}
-                        checked={obj.checked}
-                        onClick={() => handleToggle(obj.id)}
+                        checked={checkedIds[obj.id].checked}
+                        onChange={() => handleToggle(obj.id)}
                       />
                       <TrashBoard
                         isActive={isActive}

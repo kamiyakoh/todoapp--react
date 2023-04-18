@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
@@ -167,8 +168,12 @@ function New({ active, comp, setNewActive }) {
         <h2 css={fs3}>作成</h2>
         <p>することを1つ以上は必ず入力してください</p>
         <Board cssName={[singleBoard, yellow, counter]}>
-          <Button cssName={[yellow, sizeResp]}>進行中 {activeCount}</Button>
-          <Button cssName={[pink, sizeResp]}>完了済 {comp.length}</Button>
+          <Link to='./active'>
+            <Button cssName={[yellow, sizeResp]}>進行中 {activeCount}</Button>
+          </Link>
+          <Link to='./comp'>
+            <Button cssName={[pink, sizeResp]}>完了済 {comp.length}</Button>
+          </Link>
         </Board>
         <Board cssName={singleBoard}>
           <form css={form} onSubmit={handleSubmit(submitNew)}>
