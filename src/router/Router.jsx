@@ -4,6 +4,7 @@ import New from '../New';
 import Active from '../Active';
 import EditActive from '../EditActive';
 import Comp from '../Comp';
+import Page404 from '../Page404';
 
 function Router() {
   // 進行中
@@ -47,11 +48,13 @@ function Router() {
           path=':id'
           element={<EditActive active={active} setNewActive={setNewActive} />}
         />
+        <Route path='*' element={<Page404 active={active} comp={comp} />} />
       </Route>
       <Route
         path='comp'
         element={<Comp comp={comp} setNewComp={setNewComp} />}
       />
+      <Route path='*' element={<Page404 active={active} comp={comp} />} />
     </Routes>
   );
 }

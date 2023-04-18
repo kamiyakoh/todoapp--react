@@ -26,9 +26,13 @@ import Button from './Button';
 
 function EditActive({ active, setNewActive }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const activeBoards = active;
-  const board = activeBoards.find((b) => b.id === Number(id));
-  const taskList = board.tasks;
+  const board = activeBoards.find((b) => b.id === Number(id)) || false;
+  if (board === false) {
+    useEffect(() => navigate('404'), []);
+  }
+  const taskList = board.tasks || [{ task: '' }];
   // React Hook Form用宣言
   const defaultTasks = [];
   taskList.forEach((t) => defaultTasks.push({ task: t.value }));
@@ -54,7 +58,6 @@ function EditActive({ active, setNewActive }) {
   const [isError, setIsError] = useState(false);
   const toastError = () => toast.error('することを入力してください');
   const toastEdit = () => toast.success('編集しました');
-  const navigate = useNavigate();
   const submitEdit = (data) => {
     let isTask = false;
     const dataTask = data.tasks;
@@ -155,85 +158,86 @@ function EditActive({ active, setNewActive }) {
     }
   };
 
-  return (
-    <div css={[sec, bgLightYellow]}>
-      <Container isSingle>
-        <h2 css={fs3}>進行中ID： {id}</h2>
-        <Board cssName={singleBoard}>
-          <form css={form} onSubmit={handleSubmit(submitEdit)}>
-            <div>
-              <label htmlFor='newTitle'>
-                <span css={fwBold}>タイトル</span>
-                <br />
-                <input
-                  {...register('title')}
-                  onCompositionStart={startComposition}
-                  onCompositionEnd={endComposition}
-                  onKeyDown={(e) => onKeydownTitle(e, e.key)}
-                />
-                <br />
-              </label>
-              <label htmlFor='tasks'>
-                <span css={fwBold}>すること</span>
-                <br />
-                <span css={[isError ? dInline : dNone, fwBold, textOrange]}>
-                  することを1つ以上は必ず入力してください
-                </span>
-                <div id='taskInputs'>
-                  {fields.map((field, index) => (
-                    <input
-                      key={field.id}
-                      {...register(`tasks.${index}.task`)}
-                      defaultValue={field.value}
-                      onCompositionStart={startComposition}
-                      onCompositionEnd={endComposition}
-                      onKeyDown={(e) => onKeydown(e, e.key, index)}
-                    />
-                  ))}
-                </div>
-              </label>
-              <Button cssName={pink} onClick={addTask}>
-                追加する
-              </Button>
-              <Button
-                btnId='btnReduce'
-                cssName={[
-                  isInline ? dInline : dNone,
-                  blue,
-                  css`
-                    margin-left: 24px;
-                  `,
-                ]}
-                onClick={() => reduceTask(taskCount)}
-              >
-                枠を減らす
-              </Button>
-            </div>
-            {formState.isDirty && (
-              <Button
-                isSubmit
-                cssName={[
-                  yellow,
-                  size3,
-                  css`
-                    align-self: flex-end;
-                  `,
-                ]}
-              >
-                決定
-              </Button>
-            )}
-          </form>
-        </Board>
-      </Container>
-      <Toaster
-        toastOptions={{
-          className: '',
-          style: toastBoard,
-        }}
-      />
-    </div>
-  );
+  if (board)
+    return (
+      <div css={[sec, bgLightYellow]}>
+        <Container isSingle>
+          <h2 css={fs3}>進行中ID： {id}</h2>
+          <Board cssName={singleBoard}>
+            <form css={form} onSubmit={handleSubmit(submitEdit)}>
+              <div>
+                <label htmlFor='newTitle'>
+                  <span css={fwBold}>タイトル</span>
+                  <br />
+                  <input
+                    {...register('title')}
+                    onCompositionStart={startComposition}
+                    onCompositionEnd={endComposition}
+                    onKeyDown={(e) => onKeydownTitle(e, e.key)}
+                  />
+                  <br />
+                </label>
+                <label htmlFor='tasks'>
+                  <span css={fwBold}>すること</span>
+                  <br />
+                  <span css={[isError ? dInline : dNone, fwBold, textOrange]}>
+                    することを1つ以上は必ず入力してください
+                  </span>
+                  <div id='taskInputs'>
+                    {fields.map((field, index) => (
+                      <input
+                        key={field.id}
+                        {...register(`tasks.${index}.task`)}
+                        defaultValue={field.value}
+                        onCompositionStart={startComposition}
+                        onCompositionEnd={endComposition}
+                        onKeyDown={(e) => onKeydown(e, e.key, index)}
+                      />
+                    ))}
+                  </div>
+                </label>
+                <Button cssName={pink} onClick={addTask}>
+                  追加する
+                </Button>
+                <Button
+                  btnId='btnReduce'
+                  cssName={[
+                    isInline ? dInline : dNone,
+                    blue,
+                    css`
+                      margin-left: 24px;
+                    `,
+                  ]}
+                  onClick={() => reduceTask(taskCount)}
+                >
+                  枠を減らす
+                </Button>
+              </div>
+              {formState.isDirty && (
+                <Button
+                  isSubmit
+                  cssName={[
+                    yellow,
+                    size3,
+                    css`
+                      align-self: flex-end;
+                    `,
+                  ]}
+                >
+                  決定
+                </Button>
+              )}
+            </form>
+          </Board>
+        </Container>
+        <Toaster
+          toastOptions={{
+            className: '',
+            style: toastBoard,
+          }}
+        />
+      </div>
+    );
 }
 
 export default EditActive;
