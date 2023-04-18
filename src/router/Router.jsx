@@ -52,7 +52,7 @@ function Router() {
       </Route>
       <Route
         path='comp'
-        element={<Comp comp={comp} setNewComp={setNewComp} />}
+        element={<Comp active={active} comp={comp} setNewComp={setNewComp} />}
       />
       <Route path='*' element={<Page404 active={active} comp={comp} />} />
     </Routes>

@@ -162,7 +162,7 @@ function EditActive({ active, setNewActive }) {
     return (
       <div css={[sec, bgLightYellow]}>
         <Container isSingle>
-          <h2 css={fs3}>進行中ID： {id}</h2>
+          <h2 css={fs3}>編集中のID： {id}</h2>
           <Board cssName={singleBoard}>
             <form css={form} onSubmit={handleSubmit(submitEdit)}>
               <div>

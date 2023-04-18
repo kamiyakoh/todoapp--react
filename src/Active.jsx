@@ -7,7 +7,7 @@ import Container from './Container';
 import Wrapper from './Wrapper';
 import Activeboard from './Activeboard';
 import Trash from './Trash';
-// import Button from './Button';
+import Naviboard from './Naviboard';
 
 function Active({ active, comp, setNewActive, setNewComp }) {
   const activeBoards = active;
@@ -39,6 +39,9 @@ function Active({ active, comp, setNewActive, setNewComp }) {
       <Container>
         <h2 css={fs3}>進行中： {activeCount}件</h2>
         <Wrapper>
+          {activeBoards.length < 1 && (
+            <Naviboard active={active} comp={comp} isActive />
+          )}
           {activeBoards.map((obj) => (
             <Activeboard
               active={active}

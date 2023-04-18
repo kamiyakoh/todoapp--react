@@ -41,7 +41,7 @@ function Page404({ active, comp }) {
           お探しのURLのページは見つかりませんでした
         </p>
         <Board cssName={[singleBoard, yellow, flexbox]}>
-          <Link to='./new'>
+          <Link to='/'>
             <Button
               cssName={[
                 sizeResp,
@@ -53,10 +53,10 @@ function Page404({ active, comp }) {
               作成
             </Button>
           </Link>
-          <Link to='./active'>
+          <Link to='/active'>
             <Button cssName={[yellow, sizeResp]}>進行中 {active.length}</Button>
           </Link>
-          <Link to='./comp'>
+          <Link to='/comp'>
             <Button cssName={[pink, sizeResp]}>完了済 {comp.length}</Button>
           </Link>
         </Board>

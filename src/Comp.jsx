@@ -8,8 +8,9 @@ import Container from './Container';
 import Wrapper from './Wrapper';
 import Compboard from './Compboard';
 import Trash from './Trash';
+import Naviboard from './Naviboard';
 
-function Comp({ comp, setNewComp }) {
+function Comp({ active, comp, setNewComp }) {
   const compBoards = comp;
   const [compCount, setcompCount] = useState(0);
   useEffect(() => setcompCount(comp.length), [comp]);
@@ -38,6 +39,9 @@ function Comp({ comp, setNewComp }) {
       <Container>
         <h2 css={fs3}>完了済： {compCount}件</h2>
         <Wrapper>
+          {compBoards.length < 1 && (
+            <Naviboard active={active} comp={comp} isComp />
+          )}
           {compBoards.map((obj) => (
             <Compboard
               comp={comp}
