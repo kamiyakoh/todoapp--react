@@ -54,9 +54,6 @@ function New({ active, comp, setNewActive }) {
     control,
     name: 'tasks',
   });
-  // 進行中カウント
-  const [activeCount, setActiveCount] = useState(0);
-  useEffect(() => setActiveCount(active.length), [active]);
   // submitボタンを押した時
   const [isError, setIsError] = useState(false);
 
@@ -169,7 +166,7 @@ function New({ active, comp, setNewActive }) {
         <p>することを1つ以上は必ず入力してください</p>
         <Board cssName={[singleBoard, yellow, counter]}>
           <Link to='./active'>
-            <Button cssName={[yellow, sizeResp]}>進行中 {activeCount}</Button>
+            <Button cssName={[yellow, sizeResp]}>進行中 {active.length}</Button>
           </Link>
           <Link to='./comp'>
             <Button cssName={[pink, sizeResp]}>完了済 {comp.length}</Button>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 /** @jsxImportSource @emotion/react */
 // import { css } from '@emotion/react';
@@ -11,8 +11,6 @@ import Naviboard from './Naviboard';
 
 function Active({ active, comp, setNewActive, setNewComp }) {
   const activeBoards = active;
-  const [activeCount, setActiveCount] = useState(0);
-  useEffect(() => setActiveCount(active.length), [active]);
   const [trashActive, setTrashActive] = useState(
     JSON.parse(localStorage.getItem('trashActive')) || []
   );
@@ -37,7 +35,7 @@ function Active({ active, comp, setNewActive, setNewComp }) {
         toastTakeOut={toastTakeOut}
       />
       <Container>
-        <h2 css={fs3}>進行中： {activeCount}件</h2>
+        <h2 css={fs3}>進行中： {active.length}件</h2>
         <Wrapper>
           {activeBoards.length < 1 && (
             <Naviboard active={active} comp={comp} isActive />

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { mq, pink, yellow, singleBoard } from './const';
+import { mq, pink, yellow } from './const';
 import Board from './Board';
 import Button from './Button';
 
@@ -24,7 +24,7 @@ function Naviboard({ active, comp, isActive, isComp }) {
   `;
 
   return (
-    <Board cssName={[singleBoard, flexbox]}>
+    <Board cssName={[flexbox, isActive ? pink : yellow]}>
       <Link to='/'>
         <Button
           cssName={[
