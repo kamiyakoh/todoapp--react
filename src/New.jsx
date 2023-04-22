@@ -62,17 +62,20 @@ function New({ active, comp, setNewActive }) {
   const submitNew = (data) => {
     let isTask = false;
     const dataTask = data.tasks;
-    const taskValues = [];
-    dataTask.forEach((item) => {
-      if (item.task) {
-        taskValues.push({
-          taskNum: taskValues.length || 0,
-          value: item.task,
-          checked: false,
-        });
-        isTask = true;
-      }
-    });
+    const taskValues = dataTask
+      .map((item, index) => {
+        let taskValue = null;
+        if (item.task) {
+          taskValue = {
+            taskNum: index,
+            value: item.task,
+            checked: false,
+          };
+          isTask = true;
+        }
+        return taskValue;
+      })
+      .filter(Boolean);
     if (isTask) {
       setIsError(false);
       const newBoard = {

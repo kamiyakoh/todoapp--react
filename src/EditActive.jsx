@@ -27,15 +27,15 @@ import Button from './Button';
 function EditActive({ active, setNewActive }) {
   const { id } = useParams();
   const navigate = useNavigate();
-  const activeBoards = active;
-  const board = activeBoards.find((b) => b.id === Number(id)) || false;
-  if (board === false) {
-    useEffect(() => navigate('404'), []);
-  }
+  const board = active.find((b) => b.id === Number(id)) || false;
+  useEffect(() => {
+    if (!board) {
+      navigate('404');
+    }
+  }, []);
   const taskList = board.tasks || [{ task: '' }];
   // React Hook Form用宣言
-  const defaultTasks = [];
-  taskList.forEach((t) => defaultTasks.push({ task: t.value }));
+  const defaultTasks = taskList.map((t) => ({ task: t.value }));
   const {
     register,
     handleSubmit,
@@ -61,25 +61,28 @@ function EditActive({ active, setNewActive }) {
   const submitEdit = (data) => {
     let isTask = false;
     const dataTask = data.tasks;
-    const taskValues = [];
-    dataTask.forEach((item, index) => {
-      if (item.task) {
-        let isChecked = false;
-        const thisTask = taskList.find((t) => t.taskNum === index);
-        if (thisTask.value === item.task) isChecked = thisTask.checked;
-        taskValues.push({
-          taskNum: taskValues.length || 0,
-          value: item.task,
-          checked: isChecked,
-        });
-        isTask = true;
-      }
-    });
+    const taskValues = dataTask
+      .map((item, index) => {
+        let taskValue = null;
+        if (item.task) {
+          let isChecked = false;
+          const thisTask = taskList.find((t) => t.taskNum === index) || {};
+          if (thisTask.value === item.task) isChecked = thisTask.checked;
+          taskValue = {
+            taskNum: index,
+            value: item.task,
+            checked: isChecked,
+          };
+          isTask = true;
+        }
+        return taskValue;
+      })
+      .filter(Boolean);
     if (isTask) {
       setIsError(false);
       board.title = data.title;
       board.tasks = taskValues;
-      setNewActive(activeBoards);
+      setNewActive(active);
       reset();
       isTask = false;
       toastEdit();

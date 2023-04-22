@@ -69,24 +69,6 @@ function Activeboard({
     activeBoards[boardId].tasks = updatedTaskList;
     localStorage.setItem('active', JSON.stringify(activeBoards));
   };
-  /* activeから削除
-  const trash = (isSubmit) => {
-    delete activeBoards[boardId];
-    const filteredActive = activeBoards.filter(Boolean);
-    const fixedIdActive = filteredActive.map((item, index) => {
-      console.log();
-      return {
-        ...item,
-        id: index,
-      };
-    });
-    setNewActive(fixedIdActive);
-    if (isSubmit) {
-      toastSubmit();
-    } else {
-      toastTrash();
-    }
-  }; */
   // activeからゴミ箱へ
   const trash = () => {
     const trashArr = trashActive;
@@ -95,13 +77,10 @@ function Activeboard({
     setTrash(newTrash);
     delete activeBoards[boardId];
     const filteredActive = activeBoards.filter(Boolean);
-    const fixedIdActive = filteredActive.map((item, index) => {
-      console.log();
-      return {
-        ...item,
-        id: index,
-      };
-    });
+    const fixedIdActive = filteredActive.map((item, index) => ({
+      ...item,
+      id: index,
+    }));
     setNewActive(fixedIdActive);
     toastTrash();
   };
@@ -109,14 +88,11 @@ function Activeboard({
   const onSubmit = (event) => {
     event.preventDefault();
     const compBoards = comp;
-    const taskValues = [];
-    taskList.forEach((item) => {
-      taskValues.push({
-        taskNum: item.taskNum,
-        value: item.value,
-        checked: item.checked,
-      });
-    });
+    const taskValues = taskList.map((item) => ({
+      taskNum: item.taskNum,
+      value: item.value,
+      checked: item.checked,
+    }));
     const compBoard = {
       id: compBoards.length || 0,
       title,
@@ -126,13 +102,10 @@ function Activeboard({
     setNewComp(newComp);
     delete activeBoards[boardId];
     const filteredActive = activeBoards.filter(Boolean);
-    const fixedIdActive = filteredActive.map((item, index) => {
-      console.log();
-      return {
-        ...item,
-        id: index,
-      };
-    });
+    const fixedIdActive = filteredActive.map((item, index) => ({
+      ...item,
+      id: index,
+    }));
     setNewActive(fixedIdActive);
     toastSubmit();
   };

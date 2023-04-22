@@ -1,17 +1,15 @@
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 /** @jsxImportSource @emotion/react */
-// import { css } from '@emotion/react';
 import { bgLightPink, fs3, sec, toastBoard } from './const';
 import Container from './Container';
-// import Button from './Button';
 import Wrapper from './Wrapper';
 import Compboard from './Compboard';
 import Trash from './Trash';
 import Naviboard from './Naviboard';
 
 function Comp({ active, comp, setNewComp }) {
-  const compBoards = comp;
+  // const comp = comp;
   const [trashComp, setTrashComp] = useState(
     JSON.parse(localStorage.getItem('trashComp')) || []
   );
@@ -37,10 +35,8 @@ function Comp({ active, comp, setNewComp }) {
       <Container>
         <h2 css={fs3}>完了済： {comp.length}件</h2>
         <Wrapper>
-          {compBoards.length < 1 && (
-            <Naviboard active={active} comp={comp} isComp />
-          )}
-          {compBoards.map((obj) => (
+          {comp.length < 1 && <Naviboard active={active} comp={comp} isComp />}
+          {comp.map((obj) => (
             <Compboard
               comp={comp}
               boardId={obj.id}

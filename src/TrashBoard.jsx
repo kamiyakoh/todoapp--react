@@ -47,13 +47,10 @@ function TrashBoard({
   const del = () => {
     delete trashBoards[boardId];
     const filteredTrash = trashBoards.filter(Boolean);
-    const fixedIdTrash = filteredTrash.map((item, index) => {
-      console.log();
-      return {
-        ...item,
-        id: index,
-      };
-    });
+    const fixedIdTrash = filteredTrash.map((item, index) => ({
+      ...item,
+      id: index,
+    }));
     setTrash(fixedIdTrash);
   };
   const onClickDel = () => {

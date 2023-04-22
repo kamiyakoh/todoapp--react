@@ -156,12 +156,10 @@ function Trash({
     }
   `;
 
-  const wait = (seconds) => {
-    console.log();
-    return new Promise((resolve) => {
+  const wait = (seconds) =>
+    new Promise((resolve) => {
       setTimeout(resolve, seconds * 1000);
     });
-  };
   const [isOpen, setIsOpen] = useState(false);
   const [isScale, setIsScale] = useState(false);
   const [isShow, setIsShow] = useState(false);
@@ -217,17 +215,15 @@ function Trash({
     if (trashCount > 0) {
       if (window.confirm(`ゴミ箱から${count}件を完全に破棄しますか？`)) {
         const newCheckedIds = checkedIds.filter((item) => item.checked);
-        newCheckedIds.forEach((item) => {
-          delete trashBoards[item.id];
-        });
-        const filteredTrash = trashBoards.filter(Boolean);
-        const fixedIdTrash = filteredTrash.map((item, index) => {
-          console.log();
-          return {
-            ...item,
-            id: index,
-          };
-        });
+        const trashIdsToDelete = newCheckedIds.map((item) => item.id);
+        const filteredTrash = trashBoards.filter(
+          (item) => !trashIdsToDelete.includes(item.id)
+        );
+        const fixedIdTrash = filteredTrash.map((item, index) => ({
+          ...item,
+          id: index,
+        }));
+
         localStorage.setItem('trashComp', JSON.stringify(fixedIdTrash));
         setTrash(fixedIdTrash);
         toastDel(`ゴミ箱から${count}件を完全破棄しました`);

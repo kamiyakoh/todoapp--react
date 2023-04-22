@@ -46,13 +46,10 @@ function Compboard({
     setNewTrash(newTrash);
     delete compBoards[boardId];
     const filteredComp = compBoards.filter(Boolean);
-    const fixedIdComp = filteredComp.map((item, index) => {
-      console.log();
-      return {
-        ...item,
-        id: index,
-      };
-    });
+    const fixedIdComp = filteredComp.map((item, index) => ({
+      ...item,
+      id: index,
+    }));
     setNewComp(fixedIdComp);
     toastTrash();
   };

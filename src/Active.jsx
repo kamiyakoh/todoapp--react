@@ -10,7 +10,6 @@ import Trash from './Trash';
 import Naviboard from './Naviboard';
 
 function Active({ active, comp, setNewActive, setNewComp }) {
-  const activeBoards = active;
   const [trashActive, setTrashActive] = useState(
     JSON.parse(localStorage.getItem('trashActive')) || []
   );
@@ -37,10 +36,10 @@ function Active({ active, comp, setNewActive, setNewComp }) {
       <Container>
         <h2 css={fs3}>進行中： {active.length}件</h2>
         <Wrapper>
-          {activeBoards.length < 1 && (
+          {active.length < 1 && (
             <Naviboard active={active} comp={comp} isActive />
           )}
-          {activeBoards.map((obj) => (
+          {active.map((obj) => (
             <Activeboard
               active={active}
               comp={comp}
