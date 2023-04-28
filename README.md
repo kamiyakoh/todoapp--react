@@ -10,7 +10,8 @@
 - 作成黒板のすることの入力中に変換選択していない時にエンターを押すと入力欄を追加できます
 - 作成黒板のすることの入力中に空欄時にバックスペースを押すと入力欄が減ります
 - 各進行中黒板のすることのチェックボックスを全てチェックすると完了ボタンが出現し押せるようになります
-- 削除したい各完了済黒板の内側にあるチェックボックスを押してからまとめて削除ボタンを押すとまとめて削除できます
+- 各黒板の削除ボタンを押すとその黒板はゴミ箱に移動します（進行中・完了済みのごみ箱はそれぞれ別々になってます）
+- ゴミ箱の黒板を破棄することでその黒板は完全に消えます
 
 ## 作成環境
 
@@ -61,6 +62,7 @@
 - "no-console": "off" を追加し console.log など console に対する警告を抑制しました
 - "react/jsx-props-no-spreading": "off" を追加し react-hook-form の register に渡す prop に対する過剰なエラーを抑制しました
 - "react/jsx-uses-react": "off", "react/react-in-jsx-scope": "off" を追加し React 17 から不要になった import React from 'react'; の記述になった事に対する過剰なエラーを抑制しました
+- "no-alert": "off" を追加し window.alert・window.confirm・window.prompt に対する過剰な警告を抑制しました
 
 ## prettier
 

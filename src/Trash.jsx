@@ -164,21 +164,20 @@ const Trash = memo(
     const [isOpen, setIsOpen] = useState(false);
     const [isScale, setIsScale] = useState(false);
     const [isShow, setIsShow] = useState(false);
-    const openModal = () => {
+    const openModal = async () => {
       document.body.style.overflow = 'hidden';
       setIsOpen(true);
-      wait(0.1)
-        .then(() => {
-          setIsScale(true);
-          return wait(0.25);
-        })
-        .then(() => setIsShow(true));
+      await wait(0.1);
+      setIsScale(true);
+      await wait(0.25);
+      setIsShow(true);
     };
-    const closeModal = () => {
+    const closeModal = async () => {
       document.body.style.overflow = 'auto';
       setIsShow(false);
       setIsScale(false);
-      setTimeout(() => setIsOpen(false), 350);
+      await wait(0.35);
+      setIsOpen(false);
     };
     const trashBoards = trashArr;
     const [trashCount, setTrashCount] = useState(0);
