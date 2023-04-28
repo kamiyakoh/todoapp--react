@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 /** @jsxImportSource @emotion/react */
 import { bgLightPink, fs3, sec, toastBoard } from './const';
@@ -8,18 +8,27 @@ import Compboard from './Compboard';
 import Trash from './Trash';
 import Naviboard from './Naviboard';
 
-function Comp({ active, comp, setNewComp }) {
+const Comp = memo(({ active, comp, setNewComp }) => {
   // const comp = comp;
   const [trashComp, setTrashComp] = useState(
     JSON.parse(localStorage.getItem('trashComp')) || []
   );
-  const setNewTrashComp = (newTrashComp) => {
-    localStorage.setItem('trashComp', JSON.stringify(newTrashComp));
-    setTrashComp(newTrashComp);
-  };
-  const toastTrash = () => toast('ゴミ箱へ移動しました', { icon: '🚮' });
-  const toastDel = (text) => toast(text, { icon: '💥' });
-  const toastTakeOut = () => toast.success('ゴミ箱から戻しました');
+  const setNewTrashComp = useCallback(
+    (newTrashComp) => {
+      localStorage.setItem('trashComp', JSON.stringify(newTrashComp));
+      setTrashComp(newTrashComp);
+    },
+    [trashComp]
+  );
+  const toastTrash = useCallback(
+    () => toast('ゴミ箱へ移動しました', { icon: '🚮' }),
+    []
+  );
+  const toastDel = useCallback((text) => toast(text, { icon: '💥' }), []);
+  const toastTakeOut = useCallback(
+    () => toast.success('ゴミ箱から戻しました'),
+    []
+  );
 
   return (
     <div css={[sec, bgLightPink]}>
@@ -58,6 +67,6 @@ function Comp({ active, comp, setNewComp }) {
       </Container>
     </div>
   );
-}
+});
 
 export default Comp;

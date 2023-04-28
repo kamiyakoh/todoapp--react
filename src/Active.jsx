@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 /** @jsxImportSource @emotion/react */
 // import { css } from '@emotion/react';
@@ -9,18 +9,27 @@ import Activeboard from './Activeboard';
 import Trash from './Trash';
 import Naviboard from './Naviboard';
 
-function Active({ active, comp, setNewActive, setNewComp }) {
+const Active = memo(({ active, comp, setNewActive, setNewComp }) => {
   const [trashActive, setTrashActive] = useState(
     JSON.parse(localStorage.getItem('trashActive')) || []
   );
-  const setNewTrashActive = (newTrashActive) => {
-    localStorage.setItem('trashActive', JSON.stringify(newTrashActive));
-    setTrashActive(newTrashActive);
-  };
-  const toastTrash = () => toast('ゴミ箱へ移動しました', { icon: '🚮' });
-  const toastSubmit = () => toast.success('完了おめでとう');
-  const toastDel = (text) => toast(text, { icon: '💥' });
-  const toastTakeOut = () => toast.success('ゴミ箱から戻しました');
+  const setNewTrashActive = useCallback(
+    (newTrashActive) => {
+      localStorage.setItem('trashActive', JSON.stringify(newTrashActive));
+      setTrashActive(newTrashActive);
+    },
+    [trashActive]
+  );
+  const toastTrash = useCallback(
+    () => toast('ゴミ箱へ移動しました', { icon: '🚮' }),
+    []
+  );
+  const toastSubmit = useCallback(() => toast.success('完了おめでとう'), []);
+  const toastDel = useCallback((text) => toast(text, { icon: '💥' }), []);
+  const toastTakeOut = useCallback(
+    () => toast.success('ゴミ箱から戻しました'),
+    []
+  );
 
   return (
     <div css={[sec, bgLightYellow]}>
@@ -64,6 +73,6 @@ function Active({ active, comp, setNewActive, setNewComp }) {
       </Container>
     </div>
   );
-}
+});
 
 export default Active;
