@@ -30,7 +30,7 @@ function Router() {
     [comp]
   );
   useEffect(() => {
-    if (!lSActive && !lSComp) {
+    if (active.length === 0 && comp.length === 0) {
       if (
         window.confirm(
           '初期データとして、インターネットからデモデータを挿入しますか？'
@@ -136,7 +136,7 @@ function Router() {
             localStorage.setItem('comp', JSON.stringify(remakedComp));
             setComp(remakedComp);
           } catch (error) {
-            console.log(error);
+            window.alert(error);
           }
         };
         get();
