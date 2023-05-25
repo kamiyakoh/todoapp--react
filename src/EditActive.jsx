@@ -32,7 +32,7 @@ function EditActive({ active, setNewActive }) {
     if (!board) {
       navigate('404');
     }
-  }, []);
+  }, [board, navigate]);
   const taskList = board.tasks || [{ task: '' }];
   // React Hook Form用宣言
   const defaultTasks = taskList.map((t) => ({ task: t.value }));

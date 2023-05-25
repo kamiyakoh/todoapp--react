@@ -13,13 +13,10 @@ const Comp = memo(({ active, comp, setNewComp }) => {
   const [trashComp, setTrashComp] = useState(
     JSON.parse(localStorage.getItem('trashComp')) || []
   );
-  const setNewTrashComp = useCallback(
-    (newTrashComp) => {
-      localStorage.setItem('trashComp', JSON.stringify(newTrashComp));
-      setTrashComp(newTrashComp);
-    },
-    [trashComp]
-  );
+  const setNewTrashComp = useCallback((newTrashComp) => {
+    localStorage.setItem('trashComp', JSON.stringify(newTrashComp));
+    setTrashComp(newTrashComp);
+  }, []);
   const toastTrash = useCallback(
     () => toast('ゴミ箱へ移動しました', { icon: '🚮' }),
     []

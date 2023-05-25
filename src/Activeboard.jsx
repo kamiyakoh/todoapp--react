@@ -52,7 +52,7 @@ const Activeboard = memo(
     const [allChecked, setAllChecked] = useState(false);
     useEffect(() => {
       setTaskList(board.tasks);
-    }, [activeBoards]);
+    }, [activeBoards, board.tasks]);
     useEffect(() => {
       const allItemsChecked = taskList.every((item) => item.checked);
       setAllChecked(allItemsChecked);

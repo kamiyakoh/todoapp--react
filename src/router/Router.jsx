@@ -13,22 +13,16 @@ function Router() {
 
   // 進行中
   const [active, setActive] = useState(JSON.parse(lSActive) || []);
-  const setNewActive = useCallback(
-    (newActive) => {
-      localStorage.setItem('active', JSON.stringify(newActive));
-      setActive(newActive);
-    },
-    [active]
-  );
+  const setNewActive = useCallback((newActive) => {
+    localStorage.setItem('active', JSON.stringify(newActive));
+    setActive(newActive);
+  }, []);
   // 完了済
   const [comp, setComp] = useState(JSON.parse(lSComp) || []);
-  const setNewComp = useCallback(
-    (newComp) => {
-      localStorage.setItem('comp', JSON.stringify(newComp));
-      setComp(newComp);
-    },
-    [comp]
-  );
+  const setNewComp = useCallback((newComp) => {
+    localStorage.setItem('comp', JSON.stringify(newComp));
+    setComp(newComp);
+  }, []);
   useEffect(() => {
     if (active.length === 0 && comp.length === 0) {
       if (
@@ -142,7 +136,7 @@ function Router() {
         get();
       }
     }
-  }, []);
+  }, [active.length, comp.length]);
 
   return (
     <Routes>

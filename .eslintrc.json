@@ -9,7 +9,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@emotion"],
+  "plugins": ["react", "@emotion", "react-hooks"],
   "rules": {
     "@emotion/pkg-renaming": "error",
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
@@ -24,6 +24,7 @@
       {
         "devDependencies": ["**/*.test.ts*", "src/stories/**/*"]
       }
-    ]
+    ],
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

@@ -64,6 +64,7 @@
 - "react/jsx-uses-react": "off", "react/react-in-jsx-scope": "off" を追加し React 17 から不要になった import React from 'react'; の記述になった事に対する過剰なエラーを抑制しました
 - "no-alert": "off" を追加し window.alert・window.confirm・window.prompt に対する過剰な警告を抑制しました
 - "import/no-extraneous-dependencies" :[2,{"devDependencies": ["**/*.test.ts*", "src/stories/**/*"]}] を追加し devDependencies にリストしているライブラリを import した際のエラーを抑制しました
+- "react-hooks/exhaustive-deps": "warn" を追加し不適切な依存配列の検知すると警告が表示するようにしました
 
 ## prettier
 
