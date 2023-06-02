@@ -1,9 +1,11 @@
 import { RecoilRoot } from 'recoil';
 import { BrowserRouter } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import Header from './Header';
 import Router from './router/Router';
+import Header from './Header';
+import { toastBoard } from './const';
 
 function App() {
   return (
@@ -18,6 +20,12 @@ function App() {
           >
             <Router />
           </main>
+          <Toaster
+            toastOptions={{
+              className: '',
+              style: toastBoard,
+            }}
+          />
         </BrowserRouter>
       </RecoilRoot>
     </div>

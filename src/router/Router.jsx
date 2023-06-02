@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import useActive from '../hooks/useActive';
 import useComp from '../hooks/useComp';
 import useDemoData from '../hooks/useDemoData';
-import New from '../New';
+import New from '../components/pages/New';
 import Active from '../Active';
 import EditActive from '../EditActive';
 import Comp from '../Comp';
@@ -27,12 +27,7 @@ function Router() {
 
   return (
     <Routes>
-      <Route
-        path=''
-        element={
-          <New active={active} comp={comp} setNewActive={setNewActive} />
-        }
-      />
+      <Route path='' element={<New />} />
       <Route path='active'>
         <Route
           path=''
