@@ -19,10 +19,10 @@ import {
   singleBoard,
   form,
   toastBoard,
-} from './const';
-import Container from './Container';
-import Board from './Board';
-import Button from './Button';
+} from './styles/const';
+import Container from './components/uiParts/Container';
+import Board from './components/uiParts/Board';
+import Button from './components/uiParts/Button';
 
 function EditActive({ active, setNewActive }) {
   const { id } = useParams();

@@ -1,9 +1,9 @@
 import { memo } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { mq, pink, blue, size2, textPink } from './const';
-import Board from './Board';
-import Button from './Button';
+import { mq, pink, blue, size2, textPink } from './styles/const';
+import Board from './components/uiParts/Board';
+import Button from './components/uiParts/Button';
 
 const Compboard = memo(
   ({

@@ -1,12 +1,12 @@
 import { memo, useCallback, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 /** @jsxImportSource @emotion/react */
-import { bgLightPink, fs3, sec, toastBoard } from './const';
-import Container from './Container';
-import Wrapper from './Wrapper';
+import { bgLightPink, fs3, sec, toastBoard } from './styles/const';
+import Container from './components/uiParts/Container';
+import Wrapper from './components/uiParts/Wrapper';
 import Compboard from './Compboard';
 import Trash from './Trash';
-import Naviboard from './Naviboard';
+import Naviboard from './components/uiParts/Naviboard';
 
 const Comp = memo(({ active, comp, setNewComp }) => {
   // const comp = comp;

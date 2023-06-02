@@ -15,13 +15,13 @@ import {
   sec,
   singleBoard,
   form,
-} from '../../const';
+} from '../../styles/const';
 import useActive from '../../hooks/useActive';
 import useComp from '../../hooks/useComp';
 import useCustomForm from '../../hooks/useCustomForm';
-import Container from '../../Container';
-import Board from '../../Board';
-import Button from '../../Button';
+import Container from '../uiParts/Container';
+import Board from '../uiParts/Board';
+import Button from '../uiParts/Button';
 
 function New() {
   const { active } = useActive();

@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import axios from 'axios';
 import useActive from './useActive';
 import useComp from './useComp';
-import phonetic from '../phonetic';
+import phonetic from '../utils/phonetic';
 
 const useDemoData = () => {
   const { setNewActive } = useActive();

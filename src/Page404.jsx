@@ -1,10 +1,18 @@
 import { Link } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { mq, pink, yellow, fs3, fwBold, sec, singleBoard } from './const';
-import Container from './Container';
-import Board from './Board';
-import Button from './Button';
+import {
+  mq,
+  pink,
+  yellow,
+  fs3,
+  fwBold,
+  sec,
+  singleBoard,
+} from './styles/const';
+import Container from './components/uiParts/Container';
+import Board from './components/uiParts/Board';
+import Button from './components/uiParts/Button';
 
 function Page404({ active, comp }) {
   const flexbox = css`

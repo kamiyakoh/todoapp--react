@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { mq } from './const';
+import { mq } from '../../styles/const';
 
 function Board({ cssName, children }) {
   const board = css`

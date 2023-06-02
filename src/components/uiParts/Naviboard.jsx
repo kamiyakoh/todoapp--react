@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { mq, pink, yellow } from './const';
+import { mq, pink, yellow } from '../../styles/const';
 import Board from './Board';
 import Button from './Button';
 

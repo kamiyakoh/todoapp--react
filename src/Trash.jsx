@@ -1,11 +1,11 @@
 import { memo, useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import trashbox from './trashbox.png';
-import { mq, pink, blue, dBlock, dNone } from './const';
-import Container from './Container';
-import Wrapper from './Wrapper';
-import Button from './Button';
+import trashbox from './assets/icon/trashbox.png';
+import { mq, pink, blue, dBlock, dNone } from './styles/const';
+import Container from './components/uiParts/Container';
+import Wrapper from './components/uiParts/Wrapper';
+import Button from './components/uiParts/Button';
 import TrashBoard from './TrashBoard';
 
 const Trash = memo(

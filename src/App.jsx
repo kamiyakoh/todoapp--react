@@ -4,8 +4,8 @@ import { Toaster } from 'react-hot-toast';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Router from './router/Router';
-import Header from './Header';
-import { toastBoard } from './const';
+import Header from './components/projects/Header';
+import { toastBoard } from './styles/const';
 
 function App() {
   return (

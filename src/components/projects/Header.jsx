@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { mq, yellow, pink } from './const';
-import Container from './Container';
+import { mq, yellow, pink } from '../../styles/const';
+import Container from '../uiParts/Container';
 
 function Header() {
   const header = css`
@@ -45,6 +45,7 @@ function Header() {
       color: var(--color, #fff);
     }
   `;
+
   return (
     <header css={header}>
       <Container>

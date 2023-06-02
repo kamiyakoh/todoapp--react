@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { btn } from './const';
+import { btn } from '../../styles/const';
 
 function Button({ isSubmit, btnId, cssName, onClick, children }) {
   return (

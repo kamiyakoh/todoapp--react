@@ -11,9 +11,9 @@ import {
   textPink,
   textYellow,
   btn,
-} from './const';
-import Board from './Board';
-import Button from './Button';
+} from './styles/const';
+import Board from './components/uiParts/Board';
+import Button from './components/uiParts/Button';
 
 const Activeboard = memo(
   ({
