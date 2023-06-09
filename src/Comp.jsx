@@ -5,7 +5,7 @@ import { bgLightPink, fs3, sec, toastBoard } from './styles/const';
 import Container from './components/uiParts/Container';
 import Wrapper from './components/uiParts/Wrapper';
 import Compboard from './Compboard';
-import Trash from './Trash';
+import Trash from './components/projects/Trash';
 import Naviboard from './components/uiParts/Naviboard';
 
 const Comp = memo(({ active, comp, setNewComp }) => {

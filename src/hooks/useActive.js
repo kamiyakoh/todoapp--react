@@ -11,8 +11,19 @@ const useActive = () => {
     },
     [setActive]
   );
+  const delActive = useCallback(
+    (id) => {
+      const filteredActive = active.filter((item) => item !== active[id]);
+      const fixedIdActive = filteredActive.map((item, index) => ({
+        ...item,
+        id: index,
+      }));
+      setNewActive(fixedIdActive);
+    },
+    [active, setNewActive]
+  );
 
-  return { active, setNewActive };
+  return { active, setNewActive, delActive };
 };
 
 export default useActive;

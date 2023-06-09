@@ -1,7 +1,7 @@
 import { useForm, useFieldArray } from 'react-hook-form';
 import { useState, useEffect, useCallback } from 'react';
-import toast from 'react-hot-toast';
 import useActive from './useActive';
+import customToast from '../utils/customToast';
 
 const useCustomForm = () => {
   const { active, setNewActive } = useActive();
@@ -18,12 +18,8 @@ const useCustomForm = () => {
     name: 'tasks',
   });
   // submitボタンを押した時
+  const { toastSuccess, toastError } = customToast();
   const [isError, setIsError] = useState(false);
-  const toastSuccess = useCallback(() => toast.success('作成しました'), []);
-  const toastError = useCallback(
-    () => toast.error('することを入力してください'),
-    []
-  );
 
   const submitNew = useCallback(
     (data) => {

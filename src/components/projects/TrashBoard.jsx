@@ -1,22 +1,21 @@
 import { memo } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { mq, pink, blue, yellow, green, size2, textPink } from './styles/const';
-import Board from './components/uiParts/Board';
-import Button from './components/uiParts/Button';
+import {
+  mq,
+  pink,
+  blue,
+  yellow,
+  green,
+  size2,
+  textPink,
+} from '../../styles/const';
+import Board from '../uiParts/Board';
+import Button from '../uiParts/Button';
+import useTrashBoard from '../../hooks/useTrashBoard';
 
 const TrashBoard = memo(
-  ({
-    isActive,
-    distArr,
-    trashArr,
-    boardId,
-    title,
-    setDist,
-    setTrash,
-    toastDel,
-    toastTakeOut,
-  }) => {
+  ({ isActive, distArr, trashArr, boardId, setDist, setTrash }) => {
     const boardInner = css`
       display: grid;
       grid-template-columns: 1fr auto;
@@ -43,32 +42,13 @@ const TrashBoard = memo(
       text-decoration: line-through;
     `;
 
-    const trashBoards = trashArr;
-    const board = trashBoards.find((b) => b.id === boardId);
-    // trashから破棄
-    const del = () => {
-      delete trashBoards[boardId];
-      const filteredTrash = trashBoards.filter(Boolean);
-      const fixedIdTrash = filteredTrash.map((item, index) => ({
-        ...item,
-        id: index,
-      }));
-      setTrash(fixedIdTrash);
-    };
-    const onClickDel = () => {
-      if (window.confirm('完全に破棄しますか？')) {
-        del();
-        toastDel('完全に破棄しました');
-      }
-    };
-    // trashから戻す
-    const takeOut = () => {
-      const distObj = { ...trashBoards[boardId], id: distArr.length };
-      const newDist = [...distArr, distObj];
-      setDist(newDist);
-      del();
-      toastTakeOut();
-    };
+    const { board, title, onClickDel, takeOut } = useTrashBoard(
+      distArr,
+      trashArr,
+      boardId,
+      setDist,
+      setTrash
+    );
 
     return (
       <Board
