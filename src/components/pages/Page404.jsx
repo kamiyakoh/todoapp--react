@@ -9,12 +9,14 @@ import {
   fwBold,
   sec,
   singleBoard,
-} from './styles/const';
-import Container from './components/uiParts/Container';
-import Board from './components/uiParts/Board';
-import Button from './components/uiParts/Button';
+} from '../../styles/const';
+import useActive from '../../hooks/useActive';
+import useComp from '../../hooks/useComp';
+import Container from '../uiParts/Container';
+import Board from '../uiParts/Board';
+import Button from '../uiParts/Button';
 
-function Page404({ active, comp }) {
+function Page404() {
   const flexbox = css`
     display: flex;
     justify-content: space-around;
@@ -33,6 +35,9 @@ function Page404({ active, comp }) {
       --size: 1.5;
     }
   `;
+
+  const { active } = useActive();
+  const { comp } = useComp();
 
   return (
     <div css={sec}>

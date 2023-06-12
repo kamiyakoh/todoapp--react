@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import useActive from './useActive';
 import useComp from './useComp';
 import useTrashActive from './useTrashActive';
@@ -41,32 +41,29 @@ const useActiveBoard = (boardId) => {
     setNewActive(updatedActive);
   };
   // activeからゴミ箱へ
-  const trash = () => {
-    const trashArr = trashActive;
-    const newTrashBoard = { ...board, id: trashArr.length };
-    const newTrash = [...trashArr, newTrashBoard];
+  const trash = useCallback(() => {
+    const newTrashBoard = { ...board, id: trashActive.length };
+    const newTrash = [...trashActive, newTrashBoard];
     setNewTrashActive(newTrash);
     delActive(boardId);
     toastTrash();
-  };
+  }, [trashActive, board, boardId, setNewTrashActive, delActive, toastTrash]);
   // submitボタンを押した時
   const onSubmit = (event) => {
     event.preventDefault();
-    const compBoards = comp;
     const taskValues = taskList.map((item) => ({
       taskNum: item.taskNum,
       value: item.value,
       checked: item.checked,
     }));
     const compBoard = {
-      id: compBoards.length || 0,
+      id: comp.length || 0,
       title,
       tasks: taskValues,
     };
-    const newComp = [...compBoards, { ...compBoard }];
+    const newComp = [...comp, { ...compBoard }];
     setNewComp(newComp);
-    delete active[boardId];
-    const filteredActive = active.filter(Boolean);
+    const filteredActive = active.filter((item) => item !== active[boardId]);
     const fixedIdActive = filteredActive.map((item, index) => ({
       ...item,
       id: index,

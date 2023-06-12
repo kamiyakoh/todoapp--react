@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { mq, pink, yellow } from '../../styles/const';
-import Board from './Board';
-import Button from './Button';
+import useActive from '../../hooks/useActive';
+import useComp from '../../hooks/useComp';
+import Board from '../uiParts/Board';
+import Button from '../uiParts/Button';
 
-function Naviboard({ active, comp, isActive, isComp }) {
+function Naviboard({ isActive, isComp }) {
   const flexbox = css`
     display: flex;
     justify-content: space-evenly;
@@ -22,6 +24,9 @@ function Naviboard({ active, comp, isActive, isComp }) {
       --size: 1.5;
     }
   `;
+
+  const { active } = useActive();
+  const { comp } = useComp();
 
   return (
     <Board cssName={[flexbox, isActive ? pink : yellow]}>

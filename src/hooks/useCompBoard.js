@@ -10,9 +10,8 @@ const useCompBoard = (boardId) => {
   const board = comp.find((b) => b.id === boardId);
   // compからゴミ箱へ
   const trash = useCallback(() => {
-    const trashArr = trashComp;
-    const newTrashBoard = { ...board, id: trashArr.length };
-    const newTrash = [...trashArr, newTrashBoard];
+    const newTrashBoard = { ...board, id: trashComp.length };
+    const newTrash = [...trashComp, newTrashBoard];
     setNewTrashComp(newTrash);
     delComp(boardId);
     toastTrash();

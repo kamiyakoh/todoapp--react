@@ -8,11 +8,11 @@ import New from '../components/pages/New';
 import Active from '../components/pages/Active';
 import EditActive from '../components/pages/EditActive';
 import Comp from '../components/pages/Comp';
-import Page404 from '../Page404';
+import Page404 from '../components/pages/Page404';
 
 function Router() {
-  const { active, setNewActive } = useActive();
-  const { comp, setNewComp } = useComp();
+  const { active } = useActive();
+  const { comp } = useComp();
   const { fetch } = useDemoData();
 
   useEffect(() => {
@@ -29,28 +29,12 @@ function Router() {
     <Routes>
       <Route path='' element={<New />} />
       <Route path='active'>
-        <Route
-          path=''
-          element={
-            <Active
-              active={active}
-              comp={comp}
-              setNewActive={setNewActive}
-              setNewComp={setNewComp}
-            />
-          }
-        />
-        <Route
-          path=':id'
-          element={<EditActive active={active} setNewActive={setNewActive} />}
-        />
-        <Route path='*' element={<Page404 active={active} comp={comp} />} />
+        <Route path='' element={<Active />} />
+        <Route path=':id' element={<EditActive />} />
+        <Route path='*' element={<Page404 />} />
       </Route>
-      <Route
-        path='comp'
-        element={<Comp active={active} comp={comp} setNewComp={setNewComp} />}
-      />
-      <Route path='*' element={<Page404 active={active} comp={comp} />} />
+      <Route path='comp' element={<Comp />} />
+      <Route path='*' element={<Page404 />} />
     </Routes>
   );
 }

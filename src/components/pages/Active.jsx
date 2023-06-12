@@ -4,17 +4,15 @@
 // import { css } from '@emotion/react';
 import { fs3, bgLightYellow, sec } from '../../styles/const';
 import useActive from '../../hooks/useActive';
-import useComp from '../../hooks/useComp';
 import useTrashActive from '../../hooks/useTrashActive';
 import Container from '../uiParts/Container';
 import Wrapper from '../uiParts/Wrapper';
 import Activeboard from './Activeboard';
 import Trash from '../projects/Trash';
-import Naviboard from '../uiParts/Naviboard';
+import Naviboard from '../projects/Naviboard';
 
 function Active() {
   const { active, setNewActive } = useActive();
-  const { comp } = useComp();
   const { trashActive, setNewTrashActive } = useTrashActive();
 
   return (
@@ -29,9 +27,7 @@ function Active() {
       <Container>
         <h2 css={fs3}>進行中： {active.length}件</h2>
         <Wrapper>
-          {active.length < 1 && (
-            <Naviboard active={active} comp={comp} isActive />
-          )}
+          {active.length < 1 && <Naviboard isActive />}
           {active.map((obj) => (
             <Activeboard key={obj.id} boardId={obj.id} />
           ))}
