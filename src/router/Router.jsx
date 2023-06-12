@@ -16,7 +16,7 @@ function Router() {
   const { fetch } = useDemoData();
 
   useEffect(() => {
-    if (active.length !== 0 && comp.length !== 0) return;
+    if (active.length > 0 || comp.length > 0) return;
     if (
       window.confirm(
         '初期データとして、インターネットからデモデータを挿入しますか？'
