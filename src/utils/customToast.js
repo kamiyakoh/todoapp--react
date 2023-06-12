@@ -12,6 +12,7 @@ const customToast = () => {
     []
   );
   const toastSubmit = useCallback(() => toast.success('完了おめでとう'), []);
+  const toastEdit = useCallback(() => toast.success('編集しました'), []);
   const toastDel = useCallback((text) => toast(text, { icon: '💥' }), []);
   const toastTakeOut = useCallback(
     () => toast.success('ゴミ箱から戻しました'),
@@ -23,6 +24,7 @@ const customToast = () => {
     toastError,
     toastTrash,
     toastSubmit,
+    toastEdit,
     toastDel,
     toastTakeOut,
   };

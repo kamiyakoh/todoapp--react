@@ -1,7 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
-import toast, { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import {
@@ -18,22 +16,39 @@ import {
   sec,
   singleBoard,
   form,
-  toastBoard,
-} from './styles/const';
-import Container from './components/uiParts/Container';
-import Board from './components/uiParts/Board';
-import Button from './components/uiParts/Button';
+} from '../../styles/const';
+import useEditActive from '../../hooks/useEditActive';
+import Container from '../uiParts/Container';
+import Board from '../uiParts/Board';
+import Button from '../uiParts/Button';
 
-function EditActive({ active, setNewActive }) {
+function EditActive() {
   const { id } = useParams();
+  const {
+    board,
+    register,
+    handleSubmit,
+    formState,
+    fields,
+    submitEdit,
+    isError,
+    isInline,
+    taskCount,
+    addTask,
+    reduceTask,
+    startComposition,
+    endComposition,
+    onKeydownTitle,
+    onKeydown,
+  } = useEditActive(id);
+
   const navigate = useNavigate();
-  const board = active.find((b) => b.id === Number(id)) || false;
   useEffect(() => {
     if (!board) {
       navigate('404');
     }
   }, [board, navigate]);
-  const taskList = board.tasks || [{ task: '' }];
+  /* const taskList = board.tasks || [{ task: '' }];
   // React Hook Form用宣言
   const defaultTasks = taskList.map((t) => ({ task: t.value }));
   const {
@@ -159,7 +174,7 @@ function EditActive({ active, setNewActive }) {
       default:
         break;
     }
-  };
+  }; */
 
   if (board)
     return (
@@ -233,12 +248,6 @@ function EditActive({ active, setNewActive }) {
             </form>
           </Board>
         </Container>
-        <Toaster
-          toastOptions={{
-            className: '',
-            style: toastBoard,
-          }}
-        />
       </div>
     );
 }

@@ -6,7 +6,7 @@ import useComp from '../hooks/useComp';
 import useDemoData from '../hooks/useDemoData';
 import New from '../components/pages/New';
 import Active from '../components/pages/Active';
-import EditActive from '../EditActive';
+import EditActive from '../components/pages/EditActive';
 import Comp from '../Comp';
 import Page404 from '../Page404';
 
