@@ -11,8 +11,19 @@ const useComp = () => {
     },
     [setComp]
   );
+  const delComp = useCallback(
+    (id) => {
+      const fillteredComp = comp.filter((item) => item !== comp[id]);
+      const fixedIdComp = fillteredComp.map((item, index) => ({
+        ...item,
+        id: index,
+      }));
+      setNewComp(fixedIdComp);
+    },
+    [comp, setNewComp]
+  );
 
-  return { comp, setNewComp };
+  return { comp, setNewComp, delComp };
 };
 
 export default useComp;

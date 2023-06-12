@@ -7,7 +7,7 @@ import useDemoData from '../hooks/useDemoData';
 import New from '../components/pages/New';
 import Active from '../components/pages/Active';
 import EditActive from '../components/pages/EditActive';
-import Comp from '../Comp';
+import Comp from '../components/pages/Comp';
 import Page404 from '../Page404';
 
 function Router() {
